@@ -137,9 +137,10 @@ const whyAccumulate = (inputs: HomeInputs): WhyScore => ({
   ],
 });
 
-const suitForBank = (i: HomeInputs) => (i.openToBank === "yes" ? "sFit" : i.openToBank === "no" ? "sExpert" : "sContract") as const;
-const suitForSeller = (i: HomeInputs) => (i.openToSeller === "yes" ? "sFit" : i.openToSeller === "no" ? "sExpert" : "sContract") as const;
-const suitForSavings = (i: HomeInputs) => (i.openToSavings === "yes" ? "sFit" : i.openToSavings === "no" ? "sExpert" : "sNeedsCheck") as const;
+import type { TKey } from "@/i18n/translations";
+const suitForBank = (i: HomeInputs): TKey => (i.openToBank === "yes" ? "sFit" : i.openToBank === "no" ? "sExpert" : "sContract");
+const suitForSeller = (i: HomeInputs): TKey => (i.openToSeller === "yes" ? "sFit" : i.openToSeller === "no" ? "sExpert" : "sContract");
+const suitForSavings = (i: HomeInputs): TKey => (i.openToSavings === "yes" ? "sFit" : i.openToSavings === "no" ? "sExpert" : "sNeedsCheck");
 
 export function getHomeOptions(inputs: HomeInputs): ResultOption[] {
   const need = Math.max(inputs.targetAmount - inputs.downPayment, 0);
