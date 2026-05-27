@@ -80,7 +80,7 @@ export const translations = {
     en: "HelalYol compares interest-free options for home, car and SME financing — participation banks, savings finance, deferred sale, leasing and accumulation.",
   },
   ctaRoadmap: { tr: "Yol Haritamı Çıkar", en: "Build My Roadmap" },
-  ctaContract: { tr: "Sözleşme Kontrolü Gör", en: "See Contract Check" },
+  ctaContract: { tr: "Teklifimi Kontrol Et", en: "Check My Offer" },
 
   // Hero mock card
   mockUser: {
