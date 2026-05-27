@@ -1,0 +1,315 @@
+export type Lang = "tr" | "en";
+
+export const translations = {
+  // Common
+  appName: { tr: "Mizan", en: "Mizan" },
+  continue: { tr: "Devam Et", en: "Continue" },
+  back: { tr: "Geri", en: "Back" },
+  compare: { tr: "Karşılaştır", en: "Compare" },
+  calculate: { tr: "Hesapla", en: "Calculate" },
+  save: { tr: "Kaydet", en: "Save" },
+  upload: { tr: "Yükle", en: "Upload" },
+  amount: { tr: "Tutar", en: "Amount" },
+  optional: { tr: "isteğe bağlı", en: "optional" },
+  yes: { tr: "Evet", en: "Yes" },
+  no: { tr: "Hayır", en: "No" },
+  notSure: { tr: "Emin değilim", en: "Not sure" },
+  low: { tr: "Düşük", en: "Low" },
+  medium: { tr: "Orta", en: "Medium" },
+  high: { tr: "Yüksek", en: "High" },
+  risk: { tr: "Risk", en: "Risk" },
+
+  // Disclaimer
+  disclaimerShort: {
+    tr: "Mizan finansal tavsiye vermez. Bilgiler genel karşılaştırma ve karar destek amaçlıdır.",
+    en: "Mizan does not provide financial advice. Information is for comparison and decision support only.",
+  },
+  disclaimerLong: {
+    tr: "Mizan finansal tavsiye, hukuki görüş veya fetva vermez. Sunulan bilgiler genel bilgilendirme ve karar destek amaçlıdır. Nihai kararlar için kurum sözleşmelerini, danışma kurulu görüşlerini ve uzman değerlendirmesini dikkate alınız.",
+    en: "Mizan does not provide financial advice, legal opinion, or religious rulings (fatwa). All information is for general informational and decision-support purposes only. For final decisions, please review institutional contracts, Sharia board opinions, and expert assessments.",
+  },
+
+  // Onboarding
+  onboardTitle: { tr: "Mizan'a Hoş Geldiniz", en: "Welcome to Mizan" },
+  onboardSubtitle: {
+    tr: "Devam etmek için bir profil seçin",
+    en: "Choose a profile to continue",
+  },
+  individual: { tr: "Bireysel Kullanıcı", en: "Individual" },
+  individualDesc: {
+    tr: "Ev, araç, kişisel finansman ve zekat",
+    en: "Home, car, personal finance and zakat",
+  },
+  sme: { tr: "KOBİ / Girişimci", en: "SME / Entrepreneur" },
+  smeDesc: {
+    tr: "İşletme finansmanı, sözleşme analizi",
+    en: "Business finance, contract analysis",
+  },
+
+  // Nav
+  navDashboard: { tr: "Ana Sayfa", en: "Dashboard" },
+  navCompare: { tr: "Finansman Karşılaştır", en: "Compare Finance" },
+  navBusiness: { tr: "İşletme Finansmanı", en: "Business Finance" },
+  navHome: { tr: "Ev", en: "Home" },
+  navVehicle: { tr: "Araç", en: "Vehicle" },
+  navPersonal: { tr: "Kişisel", en: "Personal" },
+  navCard: { tr: "Kredi Kartı Alternatifi", en: "Card Alternative" },
+  navMurabaha: { tr: "Murabaha", en: "Murabaha" },
+  navIjara: { tr: "İjara / Leasing", en: "Ijara / Leasing" },
+  navSupplier: { tr: "Tedarikçi Finansmanı", en: "Supplier Finance" },
+  navInvoice: { tr: "Fatura Finansmanı", en: "Invoice Finance" },
+  navZakat: { tr: "Zekat Hesapla", en: "Zakat Calculator" },
+  navContract: { tr: "Sözleşme Analizi", en: "Contract Analysis" },
+  navPlanner: { tr: "Finansal Planım", en: "My Financial Plan" },
+  navSettings: { tr: "Ayarlar", en: "Settings" },
+
+  // Dashboard
+  welcomeBanner: {
+    tr: "Hoş geldin. Finansal kararların için doğru yoldasın.",
+    en: "Welcome. You're on the right path for your financial decisions.",
+  },
+  quickActions: { tr: "Hızlı Eylemler", en: "Quick Actions" },
+  qaCompare: { tr: "Finansman Karşılaştır", en: "Compare Finance" },
+  qaZakat: { tr: "Zekat Hesapla", en: "Calculate Zakat" },
+  qaContract: { tr: "Sözleşme Yükle", en: "Upload Contract" },
+  qaPlan: { tr: "Finansal Planım", en: "My Plan" },
+  recentActivity: { tr: "Son Etkinlikler", en: "Recent Activity" },
+  noComparisons: {
+    tr: "Henüz bir karşılaştırma yapmadın.",
+    en: "You haven't made any comparisons yet.",
+  },
+  featured: { tr: "Öne Çıkan İçerikler", en: "Featured Articles" },
+  art1Title: {
+    tr: "Katılım bankası gerçekten helal mi?",
+    en: "Is participation banking truly halal?",
+  },
+  art1Tag: { tr: "Eğitim", en: "Education" },
+  art2Title: {
+    tr: "Murabaha sözleşmesinde dikkat edilmesi gerekenler",
+    en: "Key points in a Murabaha contract",
+  },
+  art2Tag: { tr: "KOBİ", en: "SME" },
+  art3Title: {
+    tr: "2025'te zekat nasıl hesaplanır?",
+    en: "How to calculate zakat in 2025?",
+  },
+  art3Tag: { tr: "Zekat", en: "Zakat" },
+
+  // Compare form
+  targetAmount: { tr: "Hedef tutar", en: "Target amount" },
+  downPayment: { tr: "Peşinat", en: "Down payment" },
+  monthlyCapacity: { tr: "Aylık ödeme gücü", en: "Monthly capacity" },
+  urgency: { tr: "Aciliyet", en: "Urgency" },
+  urgencyNow: { tr: "Hemen", en: "Immediately" },
+  urgency612: { tr: "6-12 ay", en: "6-12 months" },
+  urgency12: { tr: "12+ ay", en: "12+ months" },
+  openToBank: {
+    tr: "Katılım bankasına açık mısın?",
+    en: "Open to participation bank?",
+  },
+  location: { tr: "Lokasyon", en: "Location" },
+  locTR: { tr: "Türkiye", en: "Turkey" },
+  locDE: { tr: "Almanya", en: "Germany" },
+  locUK: { tr: "İngiltere", en: "UK" },
+  locOther: { tr: "Diğer", en: "Other" },
+  duration: { tr: "Süre (ay)", en: "Duration (months)" },
+  purpose: { tr: "Finansman amacı", en: "Purpose" },
+  businessType: { tr: "Firma türü", en: "Business type" },
+  collateral: { tr: "Teminat durumu", en: "Collateral" },
+  collateralYes: { tr: "Var", en: "Available" },
+  collateralNo: { tr: "Yok", en: "None" },
+  collateralUnsure: { tr: "Belirsiz", en: "Uncertain" },
+
+  // Results
+  resultsTitle: { tr: "Karşılaştırma Sonuçları", en: "Comparison Results" },
+  financingNeed: { tr: "Finansman ihtiyacı", en: "Financing need" },
+  estDuration: { tr: "Tahmini vade", en: "Est. duration" },
+  riskLevel: { tr: "Risk seviyesi", en: "Risk level" },
+  questionsToAsk: { tr: "Sorulacak Sorular", en: "Questions to Ask" },
+  aiInsights: { tr: "AI Asistanı Yorumlasın", en: "AI Assistant Insights" },
+  aiAnalyzing: { tr: "Analiz ediliyor...", en: "Analyzing..." },
+  newComparison: { tr: "Yeni Karşılaştırma", en: "New Comparison" },
+  months: { tr: "ay", en: "months" },
+
+  // Badges
+  badgeFastFin: { tr: "Hızlı Finansman", en: "Fast Financing" },
+  badgeUrgent: { tr: "Acil İhtiyaçlara Uygun", en: "Fits Urgent Needs" },
+  badgeDownPayment: { tr: "Peşinat Avantajlı", en: "Down Payment Advantage" },
+  badgeTimeline: { tr: "Zaman Planınıza En Uygun", en: "Best for Timeline" },
+  badgeBudget: { tr: "Aylık Bütçenize Uygun", en: "Fits Monthly Budget" },
+
+  // Zakat
+  zakatTitle: { tr: "Zekat Hesaplayıcı", en: "Zakat Calculator" },
+  nisabTitle: { tr: "2025 Zekat Nisabı", en: "2025 Zakat Nisab" },
+  goldNisab: { tr: "Altın nisabı (85g)", en: "Gold nisab (85g)" },
+  silverNisab: { tr: "Gümüş nisabı (595g)", en: "Silver nisab (595g)" },
+  nisabNote: {
+    tr: "(Değerler demo amaçlıdır, günlük değişir)",
+    en: "(Values are for demo purposes, subject to daily change)",
+  },
+  zakatCash: { tr: "Nakit ve Mevduat", en: "Cash and Deposits" },
+  cash: { tr: "Nakit", en: "Cash" },
+  participationAccount: { tr: "Katılım hesabı", en: "Participation account" },
+  foreignCurrency: { tr: "Döviz (TL karşılığı)", en: "Foreign currency (TL eq.)" },
+  zakatGold: { tr: "Altın ve Gümüş", en: "Gold and Silver" },
+  goldGrams: { tr: "Altın (gram)", en: "Gold (grams)" },
+  silverGrams: { tr: "Gümüş (gram)", en: "Silver (grams)" },
+  jewelry: {
+    tr: "Takı (yatırım amaçlı)",
+    en: "Jewelry (investment)",
+  },
+  zakatInvest: { tr: "Yatırım", en: "Investments" },
+  stocks: { tr: "Hisse senedi", en: "Stocks" },
+  funds: { tr: "Fon", en: "Funds" },
+  crypto: { tr: "Kripto (helal taranmış)", en: "Crypto (sharia-screened)" },
+  zakatBiz: { tr: "Ticari Varlıklar", en: "Business Assets" },
+  inventory: { tr: "Stok", en: "Inventory" },
+  receivables: { tr: "Alacaklar", en: "Receivables" },
+  zakatDebt: { tr: "Borçlar (düşülür)", en: "Debts (deductible)" },
+  shortTermDebt: { tr: "Kısa vadeli borçlar", en: "Short-term debts" },
+  duePayments: { tr: "Vadesi gelen ödemeler", en: "Due payments" },
+  zakatableAssets: { tr: "Zekata tabi varlık", en: "Zakatable assets" },
+  zakatDue: { tr: "Zekat miktarı", en: "Zakat due" },
+  aboveNisab: { tr: "Nisap üstünde", en: "Above nisab" },
+  belowNisab: { tr: "Nisap altında", en: "Below nisab" },
+  whereGive: { tr: "Zekatınızı nereye verebilirsiniz?", en: "Where can you give your zakat?" },
+  notAffiliated: {
+    tr: "Mizan bu kurumlarla bağlantılı değildir.",
+    en: "Mizan is not affiliated with these organizations.",
+  },
+  otherObligations: { tr: "Diğer Mali Yükümlülükler", en: "Other Financial Obligations" },
+  fitre: { tr: "Fitre / Sadaka", en: "Sadaqat al-Fitr" },
+  familyMembers: { tr: "Aile bireyi sayısı", en: "Family members" },
+  fitrePerPerson: { tr: "Kişi başı fitre (TL)", en: "Fitre per person (TL)" },
+  fitreTotal: { tr: "Toplam fitre", en: "Total fitre" },
+  qurbani: { tr: "Kurban", en: "Qurbani" },
+  qurbaniType: { tr: "Kurban türü", en: "Qurbani type" },
+  largeShare: { tr: "Büyükbaş hisse", en: "Cattle share" },
+  largeFull: { tr: "Büyükbaş tam", en: "Full cattle" },
+  smallSheep: { tr: "Küçükbaş (koyun)", en: "Sheep" },
+
+  // Contract
+  contractTitle: { tr: "Sözleşme Analizi", en: "Contract Analysis" },
+  uploadContract: { tr: "Sözleşmenizi yükleyin", en: "Upload your contract" },
+  uploadSub: {
+    tr: "PDF veya Word — Murabaha, İjara, Katılım bankası sözleşmeleri",
+    en: "PDF or Word — Murabaha, Ijara, participation bank contracts",
+  },
+  dropOr: { tr: "veya dosya seç", en: "or select file" },
+  analyzing: { tr: "Analiz ediliyor...", en: "Analyzing..." },
+  analysisResult: { tr: "Sözleşme Analizi Sonucu", en: "Contract Analysis Result" },
+  upgradeCTA: {
+    tr: "Detaylı analiz için premium plana geçin",
+    en: "Upgrade to premium for detailed analysis",
+  },
+  upgradeBtn: { tr: "Premium'a Geç", en: "Upgrade" },
+  contractDisclaimer: {
+    tr: "Mizan sözleşmeyi yorumlamaz veya hukuki tavsiye vermez. Dikkat edilmesi gereken maddeleri görünür hale getirir. Nihai karar için bir hukukçuya danışınız.",
+    en: "Mizan does not interpret contracts or provide legal advice. It highlights clauses that need attention. Consult a lawyer for final decisions.",
+  },
+
+  // Planner
+  plannerTitle: { tr: "Finansal Planım", en: "My Financial Plan" },
+  goalHome: { tr: "Ev Al", en: "Buy Home" },
+  goalVehicle: { tr: "Araç Al", en: "Buy Vehicle" },
+  goalBiz: { tr: "İşletme Kur", en: "Start Business" },
+  goalHajj: { tr: "Hac/Umre", en: "Hajj/Umrah" },
+  goalSavings: { tr: "Birikim", en: "Savings Goal" },
+  currentSavings: { tr: "Mevcut birikim", en: "Current savings" },
+  monthlySavings: { tr: "Aylık tasarruf", en: "Monthly savings" },
+  targetDate: { tr: "Hedef tarih", en: "Target date" },
+  progress: { tr: "İlerleme", en: "Progress" },
+  reachIn: { tr: "ayda hedefinize ulaşırsınız", en: "months to reach your goal" },
+  monthlyNeeded: { tr: "Hedef tarihe ulaşmak için aylık", en: "Monthly needed to hit target date" },
+  suggestedVehicle: { tr: "Önerilen biriktirme aracı", en: "Suggested accumulation" },
+  participationSavings: { tr: "Katılım hesabı", en: "Participation account" },
+  goldAccum: { tr: "Altın biriktirme", en: "Gold accumulation" },
+
+  // Settings
+  settingsTitle: { tr: "Ayarlar", en: "Settings" },
+  language: { tr: "Dil", en: "Language" },
+  profileType: { tr: "Profil türü", en: "Profile type" },
+  switchProfile: { tr: "Profili değiştir", en: "Switch profile" },
+
+  // Landing
+  heroHeadline: {
+    tr: "Faizsiz finansal kararlar için doğru platform",
+    en: "The right platform for interest-free financial decisions",
+  },
+  heroSub: {
+    tr: "Ev, araç, işletme finansmanı ve zekat — bireysel ve KOBİ kullanıcılar için.",
+    en: "Home, vehicle, business finance and zakat — for individuals and SMEs.",
+  },
+  startFree: { tr: "Ücretsiz Başla", en: "Start Free" },
+  seeDemo: { tr: "Demo Gör", en: "See Demo" },
+  features: { tr: "Özellikler", en: "Features" },
+  howItWorks: { tr: "Nasıl çalışır?", en: "How it works" },
+  step1Title: { tr: "Profilini seç", en: "Choose your profile" },
+  step1Desc: { tr: "Bireysel veya KOBİ", en: "Individual or SME" },
+  step2Title: { tr: "Bilgilerini gir", en: "Enter your details" },
+  step2Desc: { tr: "Tutar, vade, konum", en: "Amount, term, location" },
+  step3Title: { tr: "Karşılaştır ve karar ver", en: "Compare and decide" },
+  step3Desc: {
+    tr: "Rozetli seçenekler, AI yorumu, sorulacak sorular",
+    en: "Tagged options, AI insights, questions to ask",
+  },
+  pricing: { tr: "Fiyatlandırma", en: "Pricing" },
+  free: { tr: "Ücretsiz", en: "Free" },
+  premium: { tr: "Premium", en: "Premium" },
+  pricePremium: { tr: "99 TL / ay", en: "$4.99 / month" },
+  tryFree: { tr: "14 Gün Ücretsiz Dene", en: "Try Free 14 Days" },
+  freeFeatures: {
+    tr: "Karşılaştırma, Zekat hesaplama, Temel rehberler",
+    en: "Comparison, Zakat calculation, Basic guides",
+  },
+  premiumFeatures: {
+    tr: "Sözleşme analizi, Detaylı raporlar, KOBİ araçları, Öncelikli destek",
+    en: "Contract analysis, Detailed reports, SME tools, Priority support",
+  },
+  feat1: { tr: "Gerçek Karşılaştırma", en: "Real Comparison" },
+  feat1D: {
+    tr: "6 katılım bankası, birden fazla finansman yöntemi, yan yana.",
+    en: "6 participation banks, multiple financing methods, side by side.",
+  },
+  feat2: { tr: "Zekat Hesaplama", en: "Zakat Calculator" },
+  feat2D: {
+    tr: "Tüm varlık türleri için doğru zekat hesabı ve dağıtım rehberi.",
+    en: "Accurate zakat calculation for all asset types and distribution guide.",
+  },
+  feat3: { tr: "Sözleşme Analizi", en: "Contract Analysis" },
+  feat3D: {
+    tr: "Murabaha ve İjara sözleşmelerinde riskli maddeleri anında görün.",
+    en: "See risky clauses in Murabaha and Ijara contracts instantly.",
+  },
+  feat4: { tr: "KOBİ Finansmanı", en: "SME Finance" },
+  feat4D: {
+    tr: "İşletmeniz için faizsiz finansman seçeneklerini karşılaştırın.",
+    en: "Compare interest-free financing options for your business.",
+  },
+  feat5: { tr: "Diaspora Desteği", en: "Diaspora Support" },
+  feat5D: {
+    tr: "Almanya, İngiltere ve diğer ülkeler için yerel seçenekler.",
+    en: "Local options for Germany, UK and other countries.",
+  },
+  feat6: { tr: "Tarafsız Bilgi", en: "Unbiased Information" },
+  feat6D: {
+    tr: "Fetva değil, bilgi. Karar sizin, araç bizim.",
+    en: "Information, not fatwa. The decision is yours, the tool is ours.",
+  },
+
+  // Card table
+  cardTitle: { tr: "Kredi Kartı Alternatifleri", en: "Credit Card Alternatives" },
+  cardName: { tr: "Kart Adı", en: "Card Name" },
+  bank: { tr: "Banka", en: "Bank" },
+  installment: { tr: "Taksit", en: "Installment" },
+  profitRate: { tr: "Kâr Payı", en: "Profit Rate" },
+  annualFee: { tr: "Yıllık Ücret", en: "Annual Fee" },
+  limitRange: { tr: "Limit Aralığı", en: "Limit Range" },
+  notes: { tr: "Notlar", en: "Notes" },
+  cardDataNote: {
+    tr: "Veriler bilgilendirme amaçlıdır. Güncel oranlar için bankayla iletişime geçin.",
+    en: "Data is for informational purposes. Contact the bank for current rates.",
+  },
+} as const;
+
+export type TKey = keyof typeof translations;
