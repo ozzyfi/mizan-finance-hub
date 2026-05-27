@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/dialog";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { formatTL } from "@/state/AppContext";
-import type { Lang } from "@/i18n/translations";
+import { ScoreExplanation, type WhyScore } from "@/components/ScoreExplanation";
+import type { Lang, TKey } from "@/i18n/translations";
 
 export type Bilingual = { tr: string; en: string };
 
@@ -27,9 +28,11 @@ export type ResultOption = {
   desc: Bilingual;
   badges: Bilingual[];
   risk: "low" | "medium" | "high";
+  suitability?: TKey; // sFit | sContract | sNeedsCheck | sExpert | sSimple
   durationMonths: number;
   financingNeed: number;
   questions: Bilingual[];
+  whyScore?: WhyScore;
   aiInsight: (inputs: Record<string, number | string>, lang: Lang) => string;
 };
 
@@ -63,6 +66,8 @@ export function ResultCard({
     }, 18);
   };
 
+  const suitabilityKey: TKey = option.suitability ?? "sFit";
+
   return (
     <Card className="shadow-soft hover:shadow-soft-hover transition-base flex flex-col">
       <CardHeader className="space-y-3">
@@ -74,20 +79,33 @@ export function ResultCard({
             {t("risk")}: {t(option.risk as "low" | "medium" | "high")}
           </Badge>
         </div>
-        <p className="text-sm text-muted-foreground line-clamp-2">{option.desc[lang]}</p>
-        <div className="flex flex-wrap gap-1.5">
-          {option.badges.map((b, i) => (
-            <Badge
-              key={i}
-              className="bg-gold/15 text-foreground border border-gold/40 hover:bg-gold/20"
-              variant="outline"
-            >
-              {b[lang]}
-            </Badge>
-          ))}
+
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            {t("suitability")}:
+          </span>
+          <Badge className="bg-primary/10 text-primary border-primary/30 hover:bg-primary/15" variant="outline">
+            {t(suitabilityKey)}
+          </Badge>
         </div>
+
+        <p className="text-sm text-muted-foreground line-clamp-3">{option.desc[lang]}</p>
+
+        {option.badges.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {option.badges.map((b, i) => (
+              <Badge
+                key={i}
+                className="bg-gold/15 text-foreground border border-gold/40 hover:bg-gold/20"
+                variant="outline"
+              >
+                {b[lang]}
+              </Badge>
+            ))}
+          </div>
+        )}
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col gap-4">
+      <CardContent className="flex flex-1 flex-col gap-3">
         <div className="grid grid-cols-3 gap-2 rounded-lg border bg-muted/30 p-3 text-center">
           <div>
             <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
@@ -110,6 +128,8 @@ export function ResultCard({
             <div className="mt-1 text-sm font-semibold capitalize">{t(option.risk)}</div>
           </div>
         </div>
+
+        <ScoreExplanation why={option.whyScore} />
 
         <Collapsible open={openQ} onOpenChange={setOpenQ}>
           <CollapsibleTrigger asChild>

@@ -8,24 +8,29 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { ResultCard } from "@/components/ResultCard";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
-import { getSmeOptions, type SmeInputs } from "@/data/smeOptions";
+import { ChecklistBox } from "@/components/ChecklistBox";
+import { getSmeOptions, type SmeInputs, type SmePurpose } from "@/data/smeOptions";
 import { ArrowRight, RefreshCw } from "lucide-react";
+import type { TKey } from "@/i18n/translations";
 
 const titles: Record<string, { tr: string; en: string }> = {
+  general: { tr: "KOBİ Finansmanı", en: "SME Financing" },
   murabaha: { tr: "Murabaha", en: "Murabaha" },
   ijara: { tr: "İjara / Leasing", en: "Ijara / Leasing" },
   supplier: { tr: "Tedarikçi Finansmanı", en: "Supplier Finance" },
   invoice: { tr: "Fatura Finansmanı", en: "Invoice Finance" },
 };
 
-export function BusinessView({ variant }: { variant: keyof typeof titles }) {
+export function BusinessView({ variant = "general" }: { variant?: keyof typeof titles }) {
   const { t, lang } = useTranslation();
   const [inputs, setInputs] = useState<SmeInputs>({
-    businessType: "ltd",
-    purpose: "goods",
+    purpose: "equipment",
     amount: 0,
+    equity: 0,
+    monthlyCapacity: 0,
     duration: 24,
-    collateral: "unsure",
+    documentable: "yes",
+    collateral: "partly",
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -36,9 +41,7 @@ export function BusinessView({ variant }: { variant: keyof typeof titles }) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">{titles[variant][lang]}</h1>
-            <p className="text-sm text-muted-foreground">
-              {lang === "tr" ? "Karşılaştırma sonuçları" : "Comparison results"}
-            </p>
+            <p className="text-sm text-muted-foreground">{t("resultsTitle")}</p>
           </div>
           <Button variant="outline" onClick={() => setSubmitted(false)} size="sm">
             <RefreshCw className="mr-1.5 h-4 w-4" /> {t("newComparison")}
@@ -46,13 +49,10 @@ export function BusinessView({ variant }: { variant: keyof typeof titles }) {
         </div>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {options.map((o) => (
-            <ResultCard
-              key={o.id}
-              option={o}
-              inputs={inputs as unknown as Record<string, number | string>}
-            />
+            <ResultCard key={o.id} option={o} inputs={inputs as unknown as Record<string, number | string>} />
           ))}
         </div>
+        <ChecklistBox />
         <DisclaimerBox variant="long" />
       </div>
     );
@@ -63,8 +63,8 @@ export function BusinessView({ variant }: { variant: keyof typeof titles }) {
       <h1 className="text-2xl font-semibold tracking-tight">{titles[variant][lang]}</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         {lang === "tr"
-          ? "İşletmeniz için bilgilerinizi girin."
-          : "Enter your business details."}
+          ? "İşletmenizin ihtiyacını girin, faizsiz seçenekleri sıralayalım."
+          : "Enter your business need to rank interest-free options."}
       </p>
 
       <Card className="mt-6 p-6 shadow-soft">
@@ -75,53 +75,32 @@ export function BusinessView({ variant }: { variant: keyof typeof titles }) {
             setSubmitted(true);
           }}
         >
-          <Field label={t("businessType")}>
-            <Select
-              value={inputs.businessType}
-              onValueChange={(v) =>
-                setInputs({ ...inputs, businessType: v as SmeInputs["businessType"] })
-              }
-            >
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sole">{lang === "tr" ? "Şahıs" : "Sole proprietor"}</SelectItem>
-                <SelectItem value="ltd">Ltd. Şti.</SelectItem>
-                <SelectItem value="as">A.Ş.</SelectItem>
-                <SelectItem value="startup">{lang === "tr" ? "Startup / Girişim" : "Startup"}</SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-
-          <Field label={t("purpose")}>
+          <Field label={t("smePurpose")} className="md:col-span-2">
             <Select
               value={inputs.purpose}
-              onValueChange={(v) => setInputs({ ...inputs, purpose: v as SmeInputs["purpose"] })}
+              onValueChange={(v) => setInputs({ ...inputs, purpose: v as SmePurpose })}
             >
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="goods">{lang === "tr" ? "Mal alımı" : "Goods purchase"}</SelectItem>
-                <SelectItem value="equipment">{lang === "tr" ? "Ekipman" : "Equipment"}</SelectItem>
-                <SelectItem value="working">{lang === "tr" ? "İşletme sermayesi" : "Working capital"}</SelectItem>
-                <SelectItem value="growth">{lang === "tr" ? "Büyüme" : "Growth"}</SelectItem>
-                <SelectItem value="realestate">{lang === "tr" ? "Gayrimenkul" : "Real estate"}</SelectItem>
+                <SelectItem value="stock">{t("smePurposeStock")}</SelectItem>
+                <SelectItem value="equipment">{t("smePurposeEquipment")}</SelectItem>
+                <SelectItem value="vehicle">{t("smePurposeVehicle")}</SelectItem>
+                <SelectItem value="invoice">{t("smePurposeInvoice")}</SelectItem>
+                <SelectItem value="supplier">{t("smePurposeSupplier")}</SelectItem>
               </SelectContent>
             </Select>
           </Field>
 
-          <Field label={t("amount") + " (₺)"}>
-            <Input
-              type="text"
-              inputMode="numeric"
-              value={inputs.amount === 0 ? "" : new Intl.NumberFormat("tr-TR").format(inputs.amount)}
-              onChange={(e) => {
-                const v = e.target.value.replace(/[^\d]/g, "");
-                setInputs({ ...inputs, amount: v === "" ? 0 : Number(v) });
-              }}
-              placeholder="0"
-            />
+          <Field label={t("smeAmount") + " (₺)"}>
+            <NumberInput value={inputs.amount} onChange={(v) => setInputs({ ...inputs, amount: v })} />
           </Field>
-
-          <Field label={t("duration")}>
+          <Field label={t("smeEquity") + " (₺)"}>
+            <NumberInput value={inputs.equity} onChange={(v) => setInputs({ ...inputs, equity: v })} />
+          </Field>
+          <Field label={t("smeCapacity") + " (₺)"}>
+            <NumberInput value={inputs.monthlyCapacity} onChange={(v) => setInputs({ ...inputs, monthlyCapacity: v })} />
+          </Field>
+          <Field label={t("smeDuration")}>
             <Input
               type="number"
               value={inputs.duration || ""}
@@ -130,27 +109,18 @@ export function BusinessView({ variant }: { variant: keyof typeof titles }) {
             />
           </Field>
 
-          <Field label={t("collateral")} className="md:col-span-2">
-            <RadioGroup
-              value={inputs.collateral}
-              onValueChange={(v) => setInputs({ ...inputs, collateral: v as SmeInputs["collateral"] })}
-              className="grid grid-cols-3 gap-2"
-            >
-              {[
-                { v: "yes", l: t("collateralYes") },
-                { v: "no", l: t("collateralNo") },
-                { v: "unsure", l: t("collateralUnsure") },
-              ].map((o) => (
-                <label
-                  key={o.v}
-                  className="flex cursor-pointer items-center gap-2 rounded-lg border p-3 text-sm transition-base hover:bg-secondary has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-secondary"
-                >
-                  <RadioGroupItem value={o.v} />
-                  <span>{o.l}</span>
-                </label>
-              ))}
-            </RadioGroup>
-          </Field>
+          <ThreeWay
+            label={t("smeDocs")}
+            value={inputs.documentable}
+            onChange={(v) => setInputs({ ...inputs, documentable: v })}
+            t={t}
+          />
+          <ThreeWay
+            label={t("smeCollateral")}
+            value={inputs.collateral}
+            onChange={(v) => setInputs({ ...inputs, collateral: v })}
+            t={t}
+          />
 
           <div className="md:col-span-2 flex justify-end">
             <Button type="submit" size="lg">
@@ -167,11 +137,63 @@ export function BusinessView({ variant }: { variant: keyof typeof titles }) {
   );
 }
 
+function ThreeWay({
+  label,
+  value,
+  onChange,
+  t,
+}: {
+  label: string;
+  value: "yes" | "partly" | "no";
+  onChange: (v: "yes" | "partly" | "no") => void;
+  t: (k: TKey) => string;
+}) {
+  return (
+    <Field label={label} className="md:col-span-2">
+      <RadioGroup
+        value={value}
+        onValueChange={(v) => onChange(v as "yes" | "partly" | "no")}
+        className="grid grid-cols-3 gap-2"
+      >
+        {[
+          { v: "yes", l: t("yes") },
+          { v: "partly", l: t("partly") },
+          { v: "no", l: t("no") },
+        ].map((o) => (
+          <label
+            key={o.v}
+            className="flex cursor-pointer items-center gap-2 rounded-lg border p-3 text-sm transition-base hover:bg-secondary has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-secondary"
+          >
+            <RadioGroupItem value={o.v} />
+            <span>{o.l}</span>
+          </label>
+        ))}
+      </RadioGroup>
+    </Field>
+  );
+}
+
 function Field({ label, children, className = "" }: { label: string; children: React.ReactNode; className?: string }) {
   return (
     <div className={`space-y-1.5 ${className}`}>
       <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</Label>
       {children}
     </div>
+  );
+}
+
+function NumberInput({ value, onChange }: { value: number; onChange: (n: number) => void }) {
+  const display = value === 0 ? "" : new Intl.NumberFormat("tr-TR").format(value);
+  return (
+    <Input
+      type="text"
+      inputMode="numeric"
+      value={display}
+      onChange={(e) => {
+        const clean = e.target.value.replace(/[^\d]/g, "");
+        onChange(clean === "" ? 0 : Number(clean));
+      }}
+      placeholder="0"
+    />
   );
 }

@@ -6,10 +6,7 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
-    meta: [
-      { title: "Mizan — Profilinizi seçin / Choose your profile" },
-      { name: "description", content: "Mizan onboarding — choose individual or SME profile." },
-    ],
+    meta: [{ title: "HelalYol — Profilinizi seçin" }],
   }),
   component: Onboarding,
 });
@@ -29,9 +26,9 @@ function Onboarding() {
       <header className="flex items-center justify-between border-b bg-background/80 px-6 py-4 backdrop-blur">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-semibold">
-            M
+            H
           </div>
-          <span className="font-semibold">Mizan</span>
+          <span className="font-semibold">HelalYol</span>
         </Link>
         <LanguageToggle />
       </header>
