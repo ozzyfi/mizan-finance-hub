@@ -9,38 +9,137 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCompareVehicleRouteImport } from './routes/_app.compare.vehicle'
+import { Route as AppComparePersonalRouteImport } from './routes/_app.compare.personal'
+import { Route as AppCompareHomeRouteImport } from './routes/_app.compare.home'
+import { Route as AppCompareCardRouteImport } from './routes/_app.compare.card'
 
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompareVehicleRoute = AppCompareVehicleRouteImport.update({
+  id: '/compare/vehicle',
+  path: '/compare/vehicle',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppComparePersonalRoute = AppComparePersonalRouteImport.update({
+  id: '/compare/personal',
+  path: '/compare/personal',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompareHomeRoute = AppCompareHomeRouteImport.update({
+  id: '/compare/home',
+  path: '/compare/home',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompareCardRoute = AppCompareCardRouteImport.update({
+  id: '/compare/card',
+  path: '/compare/card',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/compare/card': typeof AppCompareCardRoute
+  '/compare/home': typeof AppCompareHomeRoute
+  '/compare/personal': typeof AppComparePersonalRoute
+  '/compare/vehicle': typeof AppCompareVehicleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/compare/card': typeof AppCompareCardRoute
+  '/compare/home': typeof AppCompareHomeRoute
+  '/compare/personal': typeof AppComparePersonalRoute
+  '/compare/vehicle': typeof AppCompareVehicleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/compare/card': typeof AppCompareCardRoute
+  '/_app/compare/home': typeof AppCompareHomeRoute
+  '/_app/compare/personal': typeof AppComparePersonalRoute
+  '/_app/compare/vehicle': typeof AppCompareVehicleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/onboarding'
+    | '/dashboard'
+    | '/compare/card'
+    | '/compare/home'
+    | '/compare/personal'
+    | '/compare/vehicle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/dashboard'
+    | '/compare/card'
+    | '/compare/home'
+    | '/compare/personal'
+    | '/compare/vehicle'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/onboarding'
+    | '/_app/dashboard'
+    | '/_app/compare/card'
+    | '/_app/compare/home'
+    | '/_app/compare/personal'
+    | '/_app/compare/vehicle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  OnboardingRoute: typeof OnboardingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +147,66 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/vehicle': {
+      id: '/_app/compare/vehicle'
+      path: '/compare/vehicle'
+      fullPath: '/compare/vehicle'
+      preLoaderRoute: typeof AppCompareVehicleRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/personal': {
+      id: '/_app/compare/personal'
+      path: '/compare/personal'
+      fullPath: '/compare/personal'
+      preLoaderRoute: typeof AppComparePersonalRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/home': {
+      id: '/_app/compare/home'
+      path: '/compare/home'
+      fullPath: '/compare/home'
+      preLoaderRoute: typeof AppCompareHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/card': {
+      id: '/_app/compare/card'
+      path: '/compare/card'
+      fullPath: '/compare/card'
+      preLoaderRoute: typeof AppCompareCardRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppCompareCardRoute: typeof AppCompareCardRoute
+  AppCompareHomeRoute: typeof AppCompareHomeRoute
+  AppComparePersonalRoute: typeof AppComparePersonalRoute
+  AppCompareVehicleRoute: typeof AppCompareVehicleRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
+  AppCompareCardRoute: AppCompareCardRoute,
+  AppCompareHomeRoute: AppCompareHomeRoute,
+  AppComparePersonalRoute: AppComparePersonalRoute,
+  AppCompareVehicleRoute: AppCompareVehicleRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  OnboardingRoute: OnboardingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
