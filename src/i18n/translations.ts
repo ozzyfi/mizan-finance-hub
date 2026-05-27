@@ -67,7 +67,7 @@ export const translations = {
   navHome: { tr: "Ev Alacağım", en: "Buying a Home" },
   navVehicle: { tr: "Araba Alacağım", en: "Buying a Car" },
   navSme: { tr: "KOBİ Finansmanı", en: "SME Financing" },
-  navContract: { tr: "Sözleşme Kontrol Et", en: "Check a Contract" },
+  navContract: { tr: "Teklifimi Kontrol Et", en: "Check My Offer" },
   navMore: { tr: "Diğer araçlar", en: "More tools" },
   navZakat: { tr: "Zekat Hesapla", en: "Zakat Calculator" },
   navPlanner: { tr: "Finansal Planım", en: "My Financial Plan" },
