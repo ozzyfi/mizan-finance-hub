@@ -115,11 +115,12 @@ export const translations = {
     tr: "Stok, ekipman, ticari araç, fatura ve tedarikçi finansmanı için faizsiz seçenekleri karşılaştır.",
     en: "Compare interest-free options for inventory, equipment, vehicle, invoice and supplier finance.",
   },
-  jContractTitle: { tr: "Sözleşme Kontrol Et", en: "Check a Contract" },
+  jContractTitle: { tr: "Teklifimi Kontrol Et", en: "Check My Offer" },
   jContractDesc: {
-    tr: "Katılım bankası veya finansman sözleşmesindeki maliyet, gecikme, teminat ve çıkış maddelerini sadeleştir.",
-    en: "Simplify cost, delay, collateral and exit clauses in a participation or finance contract.",
+    tr: "Katılım bankası veya tasarruf finansman teklifindeki toplam maliyet, gecikme, erken kapama ve teminat şartlarını sadeleştir.",
+    en: "Simplify total cost, late-payment, early repayment and collateral terms in a participation bank or savings finance offer.",
   },
+  jContractCta: { tr: "Kontrol Et", en: "Check" },
 
   // Dashboard
   dashSummary: {
