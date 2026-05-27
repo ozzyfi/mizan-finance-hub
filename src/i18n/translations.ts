@@ -67,7 +67,7 @@ export const translations = {
   navHome: { tr: "Ev Alacağım", en: "Buying a Home" },
   navVehicle: { tr: "Araba Alacağım", en: "Buying a Car" },
   navSme: { tr: "KOBİ Finansmanı", en: "SME Financing" },
-  navContract: { tr: "Sözleşme Kontrol Et", en: "Check a Contract" },
+  navContract: { tr: "Teklifimi Kontrol Et", en: "Check My Offer" },
   navMore: { tr: "Diğer araçlar", en: "More tools" },
   navZakat: { tr: "Zekat Hesapla", en: "Zakat Calculator" },
   navPlanner: { tr: "Finansal Planım", en: "My Financial Plan" },
@@ -80,7 +80,7 @@ export const translations = {
     en: "HelalYol compares interest-free options for home, car and SME financing — participation banks, savings finance, deferred sale, leasing and accumulation.",
   },
   ctaRoadmap: { tr: "Yol Haritamı Çıkar", en: "Build My Roadmap" },
-  ctaContract: { tr: "Sözleşme Kontrolü Gör", en: "See Contract Check" },
+  ctaContract: { tr: "Teklifimi Kontrol Et", en: "Check My Offer" },
 
   // Hero mock card
   mockUser: {
@@ -115,11 +115,12 @@ export const translations = {
     tr: "Stok, ekipman, ticari araç, fatura ve tedarikçi finansmanı için faizsiz seçenekleri karşılaştır.",
     en: "Compare interest-free options for inventory, equipment, vehicle, invoice and supplier finance.",
   },
-  jContractTitle: { tr: "Sözleşme Kontrol Et", en: "Check a Contract" },
+  jContractTitle: { tr: "Teklifimi Kontrol Et", en: "Check My Offer" },
   jContractDesc: {
-    tr: "Katılım bankası veya finansman sözleşmesindeki maliyet, gecikme, teminat ve çıkış maddelerini sadeleştir.",
-    en: "Simplify cost, delay, collateral and exit clauses in a participation or finance contract.",
+    tr: "Katılım bankası veya tasarruf finansman teklifindeki toplam maliyet, gecikme, erken kapama ve teminat şartlarını sadeleştir.",
+    en: "Simplify total cost, late-payment, early repayment and collateral terms in a participation bank or savings finance offer.",
   },
+  jContractCta: { tr: "Kontrol Et", en: "Check" },
 
   // Dashboard
   dashSummary: {
