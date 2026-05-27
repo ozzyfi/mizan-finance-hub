@@ -31,13 +31,13 @@ function Dashboard() {
 
   const actions = [
     {
-      to: userType === "sme" ? "/app/business/murabaha" : "/app/compare/home",
+      to: userType === "sme" ? "/business/murabaha" : "/compare/home",
       icon: Search,
       label: t("qaCompare"),
     },
-    { to: "/app/zakat", icon: Calculator, label: t("qaZakat") },
-    { to: "/app/contract", icon: FileText, label: t("qaContract") },
-    { to: "/app/planner", icon: TrendingUp, label: t("qaPlan") },
+    { to: "/zakat", icon: Calculator, label: t("qaZakat") },
+    { to: "/contract", icon: FileText, label: t("qaContract") },
+    { to: "/planner", icon: TrendingUp, label: t("qaPlan") },
   ] as const;
 
   const articles = [

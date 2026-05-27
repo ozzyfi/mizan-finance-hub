@@ -21,7 +21,7 @@ function Onboarding() {
 
   const pick = (type: "individual" | "sme") => {
     setUserType(type);
-    navigate({ to: "/app/dashboard" });
+    navigate({ to: "/dashboard" });
   };
 
   return (
