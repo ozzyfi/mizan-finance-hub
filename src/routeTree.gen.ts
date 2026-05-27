@@ -9,38 +9,233 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppZakatRouteImport } from './routes/_app.zakat'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppPlannerRouteImport } from './routes/_app.planner'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppContractRouteImport } from './routes/_app.contract'
+import { Route as AppCompareVehicleRouteImport } from './routes/_app.compare.vehicle'
+import { Route as AppComparePersonalRouteImport } from './routes/_app.compare.personal'
+import { Route as AppCompareHomeRouteImport } from './routes/_app.compare.home'
+import { Route as AppCompareCardRouteImport } from './routes/_app.compare.card'
+import { Route as AppBusinessSupplierRouteImport } from './routes/_app.business.supplier'
+import { Route as AppBusinessMurabahaRouteImport } from './routes/_app.business.murabaha'
+import { Route as AppBusinessInvoiceRouteImport } from './routes/_app.business.invoice'
+import { Route as AppBusinessIjaraRouteImport } from './routes/_app.business.ijara'
 
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppZakatRoute = AppZakatRouteImport.update({
+  id: '/zakat',
+  path: '/zakat',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlannerRoute = AppPlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContractRoute = AppContractRouteImport.update({
+  id: '/contract',
+  path: '/contract',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompareVehicleRoute = AppCompareVehicleRouteImport.update({
+  id: '/compare/vehicle',
+  path: '/compare/vehicle',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppComparePersonalRoute = AppComparePersonalRouteImport.update({
+  id: '/compare/personal',
+  path: '/compare/personal',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompareHomeRoute = AppCompareHomeRouteImport.update({
+  id: '/compare/home',
+  path: '/compare/home',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompareCardRoute = AppCompareCardRouteImport.update({
+  id: '/compare/card',
+  path: '/compare/card',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessSupplierRoute = AppBusinessSupplierRouteImport.update({
+  id: '/business/supplier',
+  path: '/business/supplier',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessMurabahaRoute = AppBusinessMurabahaRouteImport.update({
+  id: '/business/murabaha',
+  path: '/business/murabaha',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessInvoiceRoute = AppBusinessInvoiceRouteImport.update({
+  id: '/business/invoice',
+  path: '/business/invoice',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessIjaraRoute = AppBusinessIjaraRouteImport.update({
+  id: '/business/ijara',
+  path: '/business/ijara',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
+  '/contract': typeof AppContractRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/planner': typeof AppPlannerRoute
+  '/settings': typeof AppSettingsRoute
+  '/zakat': typeof AppZakatRoute
+  '/business/ijara': typeof AppBusinessIjaraRoute
+  '/business/invoice': typeof AppBusinessInvoiceRoute
+  '/business/murabaha': typeof AppBusinessMurabahaRoute
+  '/business/supplier': typeof AppBusinessSupplierRoute
+  '/compare/card': typeof AppCompareCardRoute
+  '/compare/home': typeof AppCompareHomeRoute
+  '/compare/personal': typeof AppComparePersonalRoute
+  '/compare/vehicle': typeof AppCompareVehicleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
+  '/contract': typeof AppContractRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/planner': typeof AppPlannerRoute
+  '/settings': typeof AppSettingsRoute
+  '/zakat': typeof AppZakatRoute
+  '/business/ijara': typeof AppBusinessIjaraRoute
+  '/business/invoice': typeof AppBusinessInvoiceRoute
+  '/business/murabaha': typeof AppBusinessMurabahaRoute
+  '/business/supplier': typeof AppBusinessSupplierRoute
+  '/compare/card': typeof AppCompareCardRoute
+  '/compare/home': typeof AppCompareHomeRoute
+  '/compare/personal': typeof AppComparePersonalRoute
+  '/compare/vehicle': typeof AppCompareVehicleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
+  '/_app/contract': typeof AppContractRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/planner': typeof AppPlannerRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/zakat': typeof AppZakatRoute
+  '/_app/business/ijara': typeof AppBusinessIjaraRoute
+  '/_app/business/invoice': typeof AppBusinessInvoiceRoute
+  '/_app/business/murabaha': typeof AppBusinessMurabahaRoute
+  '/_app/business/supplier': typeof AppBusinessSupplierRoute
+  '/_app/compare/card': typeof AppCompareCardRoute
+  '/_app/compare/home': typeof AppCompareHomeRoute
+  '/_app/compare/personal': typeof AppComparePersonalRoute
+  '/_app/compare/vehicle': typeof AppCompareVehicleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/onboarding'
+    | '/contract'
+    | '/dashboard'
+    | '/planner'
+    | '/settings'
+    | '/zakat'
+    | '/business/ijara'
+    | '/business/invoice'
+    | '/business/murabaha'
+    | '/business/supplier'
+    | '/compare/card'
+    | '/compare/home'
+    | '/compare/personal'
+    | '/compare/vehicle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/contract'
+    | '/dashboard'
+    | '/planner'
+    | '/settings'
+    | '/zakat'
+    | '/business/ijara'
+    | '/business/invoice'
+    | '/business/murabaha'
+    | '/business/supplier'
+    | '/compare/card'
+    | '/compare/home'
+    | '/compare/personal'
+    | '/compare/vehicle'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/onboarding'
+    | '/_app/contract'
+    | '/_app/dashboard'
+    | '/_app/planner'
+    | '/_app/settings'
+    | '/_app/zakat'
+    | '/_app/business/ijara'
+    | '/_app/business/invoice'
+    | '/_app/business/murabaha'
+    | '/_app/business/supplier'
+    | '/_app/compare/card'
+    | '/_app/compare/home'
+    | '/_app/compare/personal'
+    | '/_app/compare/vehicle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  OnboardingRoute: typeof OnboardingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +243,138 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/zakat': {
+      id: '/_app/zakat'
+      path: '/zakat'
+      fullPath: '/zakat'
+      preLoaderRoute: typeof AppZakatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/planner': {
+      id: '/_app/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof AppPlannerRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/contract': {
+      id: '/_app/contract'
+      path: '/contract'
+      fullPath: '/contract'
+      preLoaderRoute: typeof AppContractRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/vehicle': {
+      id: '/_app/compare/vehicle'
+      path: '/compare/vehicle'
+      fullPath: '/compare/vehicle'
+      preLoaderRoute: typeof AppCompareVehicleRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/personal': {
+      id: '/_app/compare/personal'
+      path: '/compare/personal'
+      fullPath: '/compare/personal'
+      preLoaderRoute: typeof AppComparePersonalRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/home': {
+      id: '/_app/compare/home'
+      path: '/compare/home'
+      fullPath: '/compare/home'
+      preLoaderRoute: typeof AppCompareHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/compare/card': {
+      id: '/_app/compare/card'
+      path: '/compare/card'
+      fullPath: '/compare/card'
+      preLoaderRoute: typeof AppCompareCardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/supplier': {
+      id: '/_app/business/supplier'
+      path: '/business/supplier'
+      fullPath: '/business/supplier'
+      preLoaderRoute: typeof AppBusinessSupplierRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/murabaha': {
+      id: '/_app/business/murabaha'
+      path: '/business/murabaha'
+      fullPath: '/business/murabaha'
+      preLoaderRoute: typeof AppBusinessMurabahaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/invoice': {
+      id: '/_app/business/invoice'
+      path: '/business/invoice'
+      fullPath: '/business/invoice'
+      preLoaderRoute: typeof AppBusinessInvoiceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/ijara': {
+      id: '/_app/business/ijara'
+      path: '/business/ijara'
+      fullPath: '/business/ijara'
+      preLoaderRoute: typeof AppBusinessIjaraRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppContractRoute: typeof AppContractRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppPlannerRoute: typeof AppPlannerRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppZakatRoute: typeof AppZakatRoute
+  AppBusinessIjaraRoute: typeof AppBusinessIjaraRoute
+  AppBusinessInvoiceRoute: typeof AppBusinessInvoiceRoute
+  AppBusinessMurabahaRoute: typeof AppBusinessMurabahaRoute
+  AppBusinessSupplierRoute: typeof AppBusinessSupplierRoute
+  AppCompareCardRoute: typeof AppCompareCardRoute
+  AppCompareHomeRoute: typeof AppCompareHomeRoute
+  AppComparePersonalRoute: typeof AppComparePersonalRoute
+  AppCompareVehicleRoute: typeof AppCompareVehicleRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppContractRoute: AppContractRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppPlannerRoute: AppPlannerRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppZakatRoute: AppZakatRoute,
+  AppBusinessIjaraRoute: AppBusinessIjaraRoute,
+  AppBusinessInvoiceRoute: AppBusinessInvoiceRoute,
+  AppBusinessMurabahaRoute: AppBusinessMurabahaRoute,
+  AppBusinessSupplierRoute: AppBusinessSupplierRoute,
+  AppCompareCardRoute: AppCompareCardRoute,
+  AppCompareHomeRoute: AppCompareHomeRoute,
+  AppComparePersonalRoute: AppComparePersonalRoute,
+  AppCompareVehicleRoute: AppCompareVehicleRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  OnboardingRoute: OnboardingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
