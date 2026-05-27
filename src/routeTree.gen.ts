@@ -17,6 +17,7 @@ import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppPlannerRouteImport } from './routes/_app.planner'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppContractRouteImport } from './routes/_app.contract'
+import { Route as AppBusinessIndexRouteImport } from './routes/_app.business.index'
 import { Route as AppCompareVehicleRouteImport } from './routes/_app.compare.vehicle'
 import { Route as AppComparePersonalRouteImport } from './routes/_app.compare.personal'
 import { Route as AppCompareHomeRouteImport } from './routes/_app.compare.home'
@@ -63,6 +64,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
 const AppContractRoute = AppContractRouteImport.update({
   id: '/contract',
   path: '/contract',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessIndexRoute = AppBusinessIndexRouteImport.update({
+  id: '/business/',
+  path: '/business/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppCompareVehicleRoute = AppCompareVehicleRouteImport.update({
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/compare/home': typeof AppCompareHomeRoute
   '/compare/personal': typeof AppComparePersonalRoute
   '/compare/vehicle': typeof AppCompareVehicleRoute
+  '/business/': typeof AppBusinessIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/compare/home': typeof AppCompareHomeRoute
   '/compare/personal': typeof AppComparePersonalRoute
   '/compare/vehicle': typeof AppCompareVehicleRoute
+  '/business': typeof AppBusinessIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/_app/compare/home': typeof AppCompareHomeRoute
   '/_app/compare/personal': typeof AppComparePersonalRoute
   '/_app/compare/vehicle': typeof AppCompareVehicleRoute
+  '/_app/business/': typeof AppBusinessIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/compare/home'
     | '/compare/personal'
     | '/compare/vehicle'
+    | '/business/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/compare/home'
     | '/compare/personal'
     | '/compare/vehicle'
+    | '/business'
   id:
     | '__root__'
     | '/'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/_app/compare/home'
     | '/_app/compare/personal'
     | '/_app/compare/vehicle'
+    | '/_app/business/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -276,6 +288,13 @@ declare module '@tanstack/react-router' {
       path: '/contract'
       fullPath: '/contract'
       preLoaderRoute: typeof AppContractRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/': {
+      id: '/_app/business/'
+      path: '/business'
+      fullPath: '/business/'
+      preLoaderRoute: typeof AppBusinessIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/compare/vehicle': {
@@ -351,6 +370,7 @@ interface AppRouteChildren {
   AppCompareHomeRoute: typeof AppCompareHomeRoute
   AppComparePersonalRoute: typeof AppComparePersonalRoute
   AppCompareVehicleRoute: typeof AppCompareVehicleRoute
+  AppBusinessIndexRoute: typeof AppBusinessIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -367,6 +387,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCompareHomeRoute: AppCompareHomeRoute,
   AppComparePersonalRoute: AppComparePersonalRoute,
   AppCompareVehicleRoute: AppCompareVehicleRoute,
+  AppBusinessIndexRoute: AppBusinessIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

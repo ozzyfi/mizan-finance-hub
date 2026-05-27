@@ -1,29 +1,23 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Search, Calculator, FileText, TrendingUp } from "lucide-react";
+import { LayoutDashboard, Home, Car, Building2, FileText } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageProvider";
-import { useApp } from "@/state/AppContext";
 
 export function MobileNav() {
   const { t } = useTranslation();
-  const { userType } = useApp();
   const pathname = useRouterState({ select: (r) => r.location.pathname });
 
   const items = [
-    { to: "/dashboard", icon: Home, label: t("navDashboard") },
-    {
-      to: userType === "sme" ? "/business/murabaha" : "/compare/home",
-      icon: Search,
-      label: t("navCompare"),
-    },
-    { to: "/zakat", icon: Calculator, label: t("navZakat") },
+    { to: "/dashboard", icon: LayoutDashboard, label: t("navDashboard") },
+    { to: "/compare/home", icon: Home, label: t("navHome") },
+    { to: "/compare/vehicle", icon: Car, label: t("navVehicle") },
+    { to: "/business", icon: Building2, label: t("navSme") },
     { to: "/contract", icon: FileText, label: t("navContract") },
-    { to: "/planner", icon: TrendingUp, label: t("navPlanner") },
   ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-5 border-t bg-background md:hidden">
       {items.map((it) => {
-        const active = pathname === it.to || (it.to !== "/dashboard" && pathname.startsWith(it.to.split("/").slice(0, 3).join("/")));
+        const active = pathname === it.to || (it.to !== "/dashboard" && pathname.startsWith(it.to));
         return (
           <Link
             key={it.to}

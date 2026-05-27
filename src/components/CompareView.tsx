@@ -4,18 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { ResultCard } from "@/components/ResultCard";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
-import { getHomeOptions, getVehicleOptions, getPersonalOptions, type HomeInputs } from "@/data/compareOptions";
+import { ChecklistBox } from "@/components/ChecklistBox";
+import {
+  getHomeOptions,
+  getVehicleOptions,
+  getPersonalOptions,
+  type HomeInputs,
+} from "@/data/compareOptions";
 import { ArrowRight, RefreshCw } from "lucide-react";
+import type { TKey } from "@/i18n/translations";
 
 type Variant = "home" | "vehicle" | "personal";
 
 const titles: Record<Variant, { tr: string; en: string }> = {
-  home: { tr: "Ev Finansmanı", en: "Home Financing" },
-  vehicle: { tr: "Araç Finansmanı", en: "Vehicle Financing" },
+  home: { tr: "Ev Alacağım", en: "Buying a Home" },
+  vehicle: { tr: "Araba Alacağım", en: "Buying a Car" },
   personal: { tr: "Kişisel Finansman", en: "Personal Financing" },
 };
 
@@ -27,16 +33,16 @@ export function CompareView({ variant }: { variant: Variant }) {
     monthlyCapacity: 0,
     urgency: "612",
     openToBank: "notSure",
+    openToSavings: "notSure",
+    openToSeller: "notSure",
+    openToLeasing: "notSure",
+    carUse: "personal",
     location: "TR",
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
-  const reset = () => setSubmitted(false);
+  const priceLabel: TKey =
+    variant === "home" ? "homePrice" : variant === "vehicle" ? "carPrice" : "targetAmount";
 
   const options =
     variant === "home"
@@ -50,10 +56,10 @@ export function CompareView({ variant }: { variant: Variant }) {
       <div className="mx-auto max-w-6xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">{t("resultsTitle")}</h1>
-            <p className="text-sm text-muted-foreground">{titles[variant][lang]}</p>
+            <h1 className="text-2xl font-semibold tracking-tight">{titles[variant][lang]}</h1>
+            <p className="text-sm text-muted-foreground">{t("resultsTitle")}</p>
           </div>
-          <Button variant="outline" onClick={reset} size="sm">
+          <Button variant="outline" onClick={() => setSubmitted(false)} size="sm">
             <RefreshCw className="mr-1.5 h-4 w-4" />
             {t("newComparison")}
           </Button>
@@ -63,6 +69,7 @@ export function CompareView({ variant }: { variant: Variant }) {
             <ResultCard key={o.id} option={o} inputs={inputs as unknown as Record<string, number | string>} />
           ))}
         </div>
+        <ChecklistBox />
         <DisclaimerBox variant="long" />
       </div>
     );
@@ -78,38 +85,41 @@ export function CompareView({ variant }: { variant: Variant }) {
       </p>
 
       <Card className="mt-6 p-6 shadow-soft">
-        <form className="grid gap-5 md:grid-cols-2" onSubmit={onSubmit}>
-          <Field label={t("targetAmount") + " (₺)"}>
-            <NumberInput
-              value={inputs.targetAmount}
-              onChange={(v) => setInputs({ ...inputs, targetAmount: v })}
-            />
+        <form
+          className="grid gap-5 md:grid-cols-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSubmitted(true);
+          }}
+        >
+          <Field label={t(priceLabel) + " (₺)"}>
+            <NumberInput value={inputs.targetAmount} onChange={(v) => setInputs({ ...inputs, targetAmount: v })} />
           </Field>
           <Field label={t("downPayment") + " (₺)"}>
-            <NumberInput
-              value={inputs.downPayment}
-              onChange={(v) => setInputs({ ...inputs, downPayment: v })}
-            />
+            <NumberInput value={inputs.downPayment} onChange={(v) => setInputs({ ...inputs, downPayment: v })} />
           </Field>
-          <Field label={t("monthlyCapacity") + " (₺)"}>
-            <NumberInput
-              value={inputs.monthlyCapacity}
-              onChange={(v) => setInputs({ ...inputs, monthlyCapacity: v })}
-            />
-          </Field>
-          <Field label={t("location")}>
-            <Select value={inputs.location} onValueChange={(v) => setInputs({ ...inputs, location: v as HomeInputs["location"] })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="TR">{t("locTR")}</SelectItem>
-                <SelectItem value="DE">{t("locDE")}</SelectItem>
-                <SelectItem value="UK">{t("locUK")}</SelectItem>
-                <SelectItem value="Other">{t("locOther")}</SelectItem>
-              </SelectContent>
-            </Select>
+          <Field label={t("monthlyCapacity") + " (₺)"} className="md:col-span-2">
+            <NumberInput value={inputs.monthlyCapacity} onChange={(v) => setInputs({ ...inputs, monthlyCapacity: v })} />
           </Field>
 
-          <Field label={t("urgency")} className="md:col-span-2">
+          {variant === "vehicle" && (
+            <Field label={t("carUse")} className="md:col-span-2">
+              <RadioGroup
+                value={inputs.carUse ?? "personal"}
+                onValueChange={(v) => setInputs({ ...inputs, carUse: v as "personal" | "commercial" })}
+                className="grid grid-cols-2 gap-2"
+              >
+                {[
+                  { v: "personal", l: t("carPersonal") },
+                  { v: "commercial", l: t("carCommercial") },
+                ].map((o) => (
+                  <Radio key={o.v} value={o.v} label={o.l} />
+                ))}
+              </RadioGroup>
+            </Field>
+          )}
+
+          <Field label={t("timelineQ")} className="md:col-span-2">
             <RadioGroup
               value={inputs.urgency}
               onValueChange={(v) => setInputs({ ...inputs, urgency: v as HomeInputs["urgency"] })}
@@ -120,38 +130,43 @@ export function CompareView({ variant }: { variant: Variant }) {
                 { v: "612", l: t("urgency612") },
                 { v: "12+", l: t("urgency12") },
               ].map((o) => (
-                <label
-                  key={o.v}
-                  className="flex cursor-pointer items-center gap-2 rounded-lg border p-3 text-sm transition-base hover:bg-secondary has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-secondary"
-                >
-                  <RadioGroupItem value={o.v} />
-                  <span>{o.l}</span>
-                </label>
+                <Radio key={o.v} value={o.v} label={o.l} />
               ))}
             </RadioGroup>
           </Field>
 
-          <Field label={t("openToBank")} className="md:col-span-2">
-            <RadioGroup
-              value={inputs.openToBank}
-              onValueChange={(v) => setInputs({ ...inputs, openToBank: v as HomeInputs["openToBank"] })}
-              className="grid grid-cols-3 gap-2"
-            >
-              {[
-                { v: "yes", l: t("yes") },
-                { v: "notSure", l: t("notSure") },
-                { v: "no", l: t("no") },
-              ].map((o) => (
-                <label
-                  key={o.v}
-                  className="flex cursor-pointer items-center gap-2 rounded-lg border p-3 text-sm transition-base hover:bg-secondary has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-secondary"
-                >
-                  <RadioGroupItem value={o.v} />
-                  <span>{o.l}</span>
-                </label>
-              ))}
-            </RadioGroup>
-          </Field>
+          <ThreeWay
+            label={t("openToBank")}
+            value={inputs.openToBank}
+            onChange={(v) => setInputs({ ...inputs, openToBank: v })}
+            t={t}
+          />
+
+          {variant === "home" && (
+            <ThreeWay
+              label={t("openToSavings")}
+              value={inputs.openToSavings ?? "notSure"}
+              onChange={(v) => setInputs({ ...inputs, openToSavings: v })}
+              t={t}
+            />
+          )}
+
+          <ThreeWay
+            label={t("openToSeller")}
+            value={inputs.openToSeller ?? "notSure"}
+            onChange={(v) => setInputs({ ...inputs, openToSeller: v })}
+            t={t}
+            unknownLabel={t("iDontKnow")}
+          />
+
+          {variant === "vehicle" && (
+            <ThreeWay
+              label={t("openToLeasing")}
+              value={inputs.openToLeasing ?? "notSure"}
+              onChange={(v) => setInputs({ ...inputs, openToLeasing: v })}
+              t={t}
+            />
+          )}
 
           <div className="md:col-span-2 flex justify-end">
             <Button type="submit" size="lg">
@@ -161,10 +176,47 @@ export function CompareView({ variant }: { variant: Variant }) {
         </form>
       </Card>
 
-      <div className="mt-6">
+      <div className="mt-6 space-y-4">
         <DisclaimerBox />
       </div>
     </div>
+  );
+}
+
+function ThreeWay({
+  label,
+  value,
+  onChange,
+  t,
+  unknownLabel,
+}: {
+  label: string;
+  value: "yes" | "no" | "notSure";
+  onChange: (v: "yes" | "no" | "notSure") => void;
+  t: (k: TKey) => string;
+  unknownLabel?: string;
+}) {
+  return (
+    <Field label={label} className="md:col-span-2">
+      <RadioGroup
+        value={value}
+        onValueChange={(v) => onChange(v as "yes" | "no" | "notSure")}
+        className="grid grid-cols-3 gap-2"
+      >
+        <Radio value="yes" label={t("yes")} />
+        <Radio value="notSure" label={unknownLabel ?? t("notSure")} />
+        <Radio value="no" label={t("no")} />
+      </RadioGroup>
+    </Field>
+  );
+}
+
+function Radio({ value, label }: { value: string; label: string }) {
+  return (
+    <label className="flex cursor-pointer items-center gap-2 rounded-lg border p-3 text-sm transition-base hover:bg-secondary has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-secondary">
+      <RadioGroupItem value={value} />
+      <span>{label}</span>
+    </label>
   );
 }
 
