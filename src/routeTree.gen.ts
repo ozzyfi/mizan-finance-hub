@@ -17,6 +17,10 @@ import { Route as AppCompareVehicleRouteImport } from './routes/_app.compare.veh
 import { Route as AppComparePersonalRouteImport } from './routes/_app.compare.personal'
 import { Route as AppCompareHomeRouteImport } from './routes/_app.compare.home'
 import { Route as AppCompareCardRouteImport } from './routes/_app.compare.card'
+import { Route as AppBusinessSupplierRouteImport } from './routes/_app.business.supplier'
+import { Route as AppBusinessMurabahaRouteImport } from './routes/_app.business.murabaha'
+import { Route as AppBusinessInvoiceRouteImport } from './routes/_app.business.invoice'
+import { Route as AppBusinessIjaraRouteImport } from './routes/_app.business.ijara'
 
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
@@ -57,11 +61,35 @@ const AppCompareCardRoute = AppCompareCardRouteImport.update({
   path: '/compare/card',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBusinessSupplierRoute = AppBusinessSupplierRouteImport.update({
+  id: '/business/supplier',
+  path: '/business/supplier',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessMurabahaRoute = AppBusinessMurabahaRouteImport.update({
+  id: '/business/murabaha',
+  path: '/business/murabaha',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessInvoiceRoute = AppBusinessInvoiceRouteImport.update({
+  id: '/business/invoice',
+  path: '/business/invoice',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBusinessIjaraRoute = AppBusinessIjaraRouteImport.update({
+  id: '/business/ijara',
+  path: '/business/ijara',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
   '/dashboard': typeof AppDashboardRoute
+  '/business/ijara': typeof AppBusinessIjaraRoute
+  '/business/invoice': typeof AppBusinessInvoiceRoute
+  '/business/murabaha': typeof AppBusinessMurabahaRoute
+  '/business/supplier': typeof AppBusinessSupplierRoute
   '/compare/card': typeof AppCompareCardRoute
   '/compare/home': typeof AppCompareHomeRoute
   '/compare/personal': typeof AppComparePersonalRoute
@@ -71,6 +99,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
   '/dashboard': typeof AppDashboardRoute
+  '/business/ijara': typeof AppBusinessIjaraRoute
+  '/business/invoice': typeof AppBusinessInvoiceRoute
+  '/business/murabaha': typeof AppBusinessMurabahaRoute
+  '/business/supplier': typeof AppBusinessSupplierRoute
   '/compare/card': typeof AppCompareCardRoute
   '/compare/home': typeof AppCompareHomeRoute
   '/compare/personal': typeof AppComparePersonalRoute
@@ -82,6 +114,10 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/business/ijara': typeof AppBusinessIjaraRoute
+  '/_app/business/invoice': typeof AppBusinessInvoiceRoute
+  '/_app/business/murabaha': typeof AppBusinessMurabahaRoute
+  '/_app/business/supplier': typeof AppBusinessSupplierRoute
   '/_app/compare/card': typeof AppCompareCardRoute
   '/_app/compare/home': typeof AppCompareHomeRoute
   '/_app/compare/personal': typeof AppComparePersonalRoute
@@ -93,6 +129,10 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/dashboard'
+    | '/business/ijara'
+    | '/business/invoice'
+    | '/business/murabaha'
+    | '/business/supplier'
     | '/compare/card'
     | '/compare/home'
     | '/compare/personal'
@@ -102,6 +142,10 @@ export interface FileRouteTypes {
     | '/'
     | '/onboarding'
     | '/dashboard'
+    | '/business/ijara'
+    | '/business/invoice'
+    | '/business/murabaha'
+    | '/business/supplier'
     | '/compare/card'
     | '/compare/home'
     | '/compare/personal'
@@ -112,6 +156,10 @@ export interface FileRouteTypes {
     | '/_app'
     | '/onboarding'
     | '/_app/dashboard'
+    | '/_app/business/ijara'
+    | '/_app/business/invoice'
+    | '/_app/business/murabaha'
+    | '/_app/business/supplier'
     | '/_app/compare/card'
     | '/_app/compare/home'
     | '/_app/compare/personal'
@@ -182,11 +230,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCompareCardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/business/supplier': {
+      id: '/_app/business/supplier'
+      path: '/business/supplier'
+      fullPath: '/business/supplier'
+      preLoaderRoute: typeof AppBusinessSupplierRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/murabaha': {
+      id: '/_app/business/murabaha'
+      path: '/business/murabaha'
+      fullPath: '/business/murabaha'
+      preLoaderRoute: typeof AppBusinessMurabahaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/invoice': {
+      id: '/_app/business/invoice'
+      path: '/business/invoice'
+      fullPath: '/business/invoice'
+      preLoaderRoute: typeof AppBusinessInvoiceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/business/ijara': {
+      id: '/_app/business/ijara'
+      path: '/business/ijara'
+      fullPath: '/business/ijara'
+      preLoaderRoute: typeof AppBusinessIjaraRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
+  AppBusinessIjaraRoute: typeof AppBusinessIjaraRoute
+  AppBusinessInvoiceRoute: typeof AppBusinessInvoiceRoute
+  AppBusinessMurabahaRoute: typeof AppBusinessMurabahaRoute
+  AppBusinessSupplierRoute: typeof AppBusinessSupplierRoute
   AppCompareCardRoute: typeof AppCompareCardRoute
   AppCompareHomeRoute: typeof AppCompareHomeRoute
   AppComparePersonalRoute: typeof AppComparePersonalRoute
@@ -195,6 +275,10 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
+  AppBusinessIjaraRoute: AppBusinessIjaraRoute,
+  AppBusinessInvoiceRoute: AppBusinessInvoiceRoute,
+  AppBusinessMurabahaRoute: AppBusinessMurabahaRoute,
+  AppBusinessSupplierRoute: AppBusinessSupplierRoute,
   AppCompareCardRoute: AppCompareCardRoute,
   AppCompareHomeRoute: AppCompareHomeRoute,
   AppComparePersonalRoute: AppComparePersonalRoute,
