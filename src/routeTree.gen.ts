@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppZakatRouteImport } from './routes/_app.zakat'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppPlannerRouteImport } from './routes/_app.planner'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppContractRouteImport } from './routes/_app.contract'
 import { Route as AppCompareVehicleRouteImport } from './routes/_app.compare.vehicle'
 import { Route as AppComparePersonalRouteImport } from './routes/_app.compare.personal'
 import { Route as AppCompareHomeRouteImport } from './routes/_app.compare.home'
@@ -36,9 +40,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppZakatRoute = AppZakatRouteImport.update({
+  id: '/zakat',
+  path: '/zakat',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPlannerRoute = AppPlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContractRoute = AppContractRouteImport.update({
+  id: '/contract',
+  path: '/contract',
   getParentRoute: () => AppRoute,
 } as any)
 const AppCompareVehicleRoute = AppCompareVehicleRouteImport.update({
@@ -85,7 +109,11 @@ const AppBusinessIjaraRoute = AppBusinessIjaraRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
+  '/contract': typeof AppContractRoute
   '/dashboard': typeof AppDashboardRoute
+  '/planner': typeof AppPlannerRoute
+  '/settings': typeof AppSettingsRoute
+  '/zakat': typeof AppZakatRoute
   '/business/ijara': typeof AppBusinessIjaraRoute
   '/business/invoice': typeof AppBusinessInvoiceRoute
   '/business/murabaha': typeof AppBusinessMurabahaRoute
@@ -98,7 +126,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
+  '/contract': typeof AppContractRoute
   '/dashboard': typeof AppDashboardRoute
+  '/planner': typeof AppPlannerRoute
+  '/settings': typeof AppSettingsRoute
+  '/zakat': typeof AppZakatRoute
   '/business/ijara': typeof AppBusinessIjaraRoute
   '/business/invoice': typeof AppBusinessInvoiceRoute
   '/business/murabaha': typeof AppBusinessMurabahaRoute
@@ -113,7 +145,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/_app/contract': typeof AppContractRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/planner': typeof AppPlannerRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/zakat': typeof AppZakatRoute
   '/_app/business/ijara': typeof AppBusinessIjaraRoute
   '/_app/business/invoice': typeof AppBusinessInvoiceRoute
   '/_app/business/murabaha': typeof AppBusinessMurabahaRoute
@@ -128,7 +164,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/onboarding'
+    | '/contract'
     | '/dashboard'
+    | '/planner'
+    | '/settings'
+    | '/zakat'
     | '/business/ijara'
     | '/business/invoice'
     | '/business/murabaha'
@@ -141,7 +181,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/onboarding'
+    | '/contract'
     | '/dashboard'
+    | '/planner'
+    | '/settings'
+    | '/zakat'
     | '/business/ijara'
     | '/business/invoice'
     | '/business/murabaha'
@@ -155,7 +199,11 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/onboarding'
+    | '/_app/contract'
     | '/_app/dashboard'
+    | '/_app/planner'
+    | '/_app/settings'
+    | '/_app/zakat'
     | '/_app/business/ijara'
     | '/_app/business/invoice'
     | '/_app/business/murabaha'
@@ -195,11 +243,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/zakat': {
+      id: '/_app/zakat'
+      path: '/zakat'
+      fullPath: '/zakat'
+      preLoaderRoute: typeof AppZakatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/planner': {
+      id: '/_app/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof AppPlannerRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/dashboard': {
       id: '/_app/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/contract': {
+      id: '/_app/contract'
+      path: '/contract'
+      fullPath: '/contract'
+      preLoaderRoute: typeof AppContractRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/compare/vehicle': {
@@ -262,7 +338,11 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppContractRoute: typeof AppContractRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppPlannerRoute: typeof AppPlannerRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppZakatRoute: typeof AppZakatRoute
   AppBusinessIjaraRoute: typeof AppBusinessIjaraRoute
   AppBusinessInvoiceRoute: typeof AppBusinessInvoiceRoute
   AppBusinessMurabahaRoute: typeof AppBusinessMurabahaRoute
@@ -274,7 +354,11 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppContractRoute: AppContractRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppPlannerRoute: AppPlannerRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppZakatRoute: AppZakatRoute,
   AppBusinessIjaraRoute: AppBusinessIjaraRoute,
   AppBusinessInvoiceRoute: AppBusinessInvoiceRoute,
   AppBusinessMurabahaRoute: AppBusinessMurabahaRoute,
