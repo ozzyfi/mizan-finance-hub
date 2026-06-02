@@ -18,6 +18,7 @@ import { Route as AppPlannerRouteImport } from './routes/_app.planner'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppContractRouteImport } from './routes/_app.contract'
 import { Route as AppBusinessIndexRouteImport } from './routes/_app.business.index'
+import { Route as ApiPublicChatRouteImport } from './routes/api/public/chat'
 import { Route as AppCompareVehicleRouteImport } from './routes/_app.compare.vehicle'
 import { Route as AppComparePersonalRouteImport } from './routes/_app.compare.personal'
 import { Route as AppCompareHomeRouteImport } from './routes/_app.compare.home'
@@ -70,6 +71,11 @@ const AppBusinessIndexRoute = AppBusinessIndexRouteImport.update({
   id: '/business/',
   path: '/business/',
   getParentRoute: () => AppRoute,
+} as any)
+const ApiPublicChatRoute = ApiPublicChatRouteImport.update({
+  id: '/api/public/chat',
+  path: '/api/public/chat',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppCompareVehicleRoute = AppCompareVehicleRouteImport.update({
   id: '/compare/vehicle',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/compare/home': typeof AppCompareHomeRoute
   '/compare/personal': typeof AppComparePersonalRoute
   '/compare/vehicle': typeof AppCompareVehicleRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
   '/business/': typeof AppBusinessIndexRoute
 }
 export interface FileRoutesByTo {
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/compare/home': typeof AppCompareHomeRoute
   '/compare/personal': typeof AppComparePersonalRoute
   '/compare/vehicle': typeof AppCompareVehicleRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
   '/business': typeof AppBusinessIndexRoute
 }
 export interface FileRoutesById {
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/_app/compare/home': typeof AppCompareHomeRoute
   '/_app/compare/personal': typeof AppComparePersonalRoute
   '/_app/compare/vehicle': typeof AppCompareVehicleRoute
+  '/api/public/chat': typeof ApiPublicChatRoute
   '/_app/business/': typeof AppBusinessIndexRoute
 }
 export interface FileRouteTypes {
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/compare/home'
     | '/compare/personal'
     | '/compare/vehicle'
+    | '/api/public/chat'
     | '/business/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/compare/home'
     | '/compare/personal'
     | '/compare/vehicle'
+    | '/api/public/chat'
     | '/business'
   id:
     | '__root__'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/_app/compare/home'
     | '/_app/compare/personal'
     | '/_app/compare/vehicle'
+    | '/api/public/chat'
     | '/_app/business/'
   fileRoutesById: FileRoutesById
 }
@@ -230,6 +242,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
+  ApiPublicChatRoute: typeof ApiPublicChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -296,6 +309,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/business/'
       preLoaderRoute: typeof AppBusinessIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/api/public/chat': {
+      id: '/api/public/chat'
+      path: '/api/public/chat'
+      fullPath: '/api/public/chat'
+      preLoaderRoute: typeof ApiPublicChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_app/compare/vehicle': {
       id: '/_app/compare/vehicle'
@@ -396,6 +416,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
+  ApiPublicChatRoute: ApiPublicChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
