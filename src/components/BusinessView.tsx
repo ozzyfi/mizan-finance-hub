@@ -76,28 +76,8 @@ export function BusinessView({ variant = "general" }: { variant?: keyof typeof t
       </div>
     );
   }
-    const options = getSmeOptions(variant, inputs);
-    return (
-      <div className="mx-auto max-w-6xl space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight">{titles[variant][lang]}</h1>
-            <p className="text-sm text-muted-foreground">{t("resultsTitle")}</p>
-          </div>
-          <Button variant="outline" onClick={() => setSubmitted(false)} size="sm">
-            <RefreshCw className="mr-1.5 h-4 w-4" /> {t("newComparison")}
-          </Button>
-        </div>
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {options.map((o) => (
-            <ResultCard key={o.id} option={o} inputs={inputs as unknown as Record<string, number | string>} />
-          ))}
-        </div>
-        <ChecklistBox />
-        <DisclaimerBox variant="long" />
-      </div>
-    );
-  }
+
+
 
   return (
     <div className="mx-auto max-w-3xl">
