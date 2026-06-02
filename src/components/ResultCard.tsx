@@ -8,13 +8,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { formatTL } from "@/state/AppContext";
 import { ScoreExplanation, type WhyScore } from "@/components/ScoreExplanation";
@@ -28,7 +21,7 @@ export type ResultOption = {
   desc: Bilingual;
   badges: Bilingual[];
   risk: "low" | "medium" | "high";
-  suitability?: TKey; // sFit | sContract | sNeedsCheck | sExpert | sSimple
+  suitability?: TKey;
   durationMonths: number;
   financingNeed: number;
   questions: Bilingual[];
@@ -44,27 +37,14 @@ const riskClass: Record<string, string> = {
 
 export function ResultCard({
   option,
-  inputs,
+  onAskAbout,
 }: {
   option: ResultOption;
-  inputs: Record<string, number | string>;
+  inputs?: Record<string, number | string>;
+  onAskAbout?: (title: string) => void;
 }) {
   const { lang, t } = useTranslation();
   const [openQ, setOpenQ] = useState(false);
-  const [openAI, setOpenAI] = useState(false);
-  const [aiText, setAiText] = useState("");
-
-  const startAI = () => {
-    setOpenAI(true);
-    setAiText("");
-    const full = option.aiInsight(inputs, lang);
-    let i = 0;
-    const id = setInterval(() => {
-      i += 2;
-      setAiText(full.slice(0, i));
-      if (i >= full.length) clearInterval(id);
-    }, 18);
-  };
 
   const suitabilityKey: TKey = option.suitability ?? "sFit";
 
@@ -150,27 +130,16 @@ export function ResultCard({
           </CollapsibleContent>
         </Collapsible>
 
-        <Button onClick={startAI} className="w-full" size="sm">
+        <Button
+          onClick={() => onAskAbout?.(option.title[lang])}
+          variant="outline"
+          className="w-full"
+          size="sm"
+        >
           <Sparkles className="mr-1.5 h-4 w-4" />
           {t("aiInsights")}
         </Button>
       </CardContent>
-
-      <Dialog open={openAI} onOpenChange={setOpenAI}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" />
-              {option.title[lang]}
-            </DialogTitle>
-            <DialogDescription className="text-xs">{t("aiAnalyzing")}</DialogDescription>
-          </DialogHeader>
-          <div className="rounded-lg border bg-secondary/40 p-4 text-sm leading-relaxed whitespace-pre-wrap min-h-[120px]">
-            {aiText}
-            <span className="inline-block w-1.5 h-4 ml-0.5 align-middle bg-primary animate-pulse" />
-          </div>
-        </DialogContent>
-      </Dialog>
     </Card>
   );
 }
