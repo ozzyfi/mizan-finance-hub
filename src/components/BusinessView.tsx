@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { useTranslation } from "@/i18n/LanguageProvider";
 import { ResultCard } from "@/components/ResultCard";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
 import { ChecklistBox } from "@/components/ChecklistBox";
+import { AIChatPanel, type AIChatPanelHandle } from "@/components/AIChatPanel";
 import { getSmeOptions, type SmeInputs, type SmePurpose } from "@/data/smeOptions";
 import { ArrowRight, RefreshCw } from "lucide-react";
 import type { TKey } from "@/i18n/translations";
@@ -33,8 +34,48 @@ export function BusinessView({ variant = "general" }: { variant?: keyof typeof t
     collateral: "partly",
   });
   const [submitted, setSubmitted] = useState(false);
+  const chatRef = useRef<AIChatPanelHandle>(null);
 
   if (submitted) {
+    const options = getSmeOptions(variant, inputs);
+    return (
+      <div className="mx-auto max-w-7xl space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight">{titles[variant][lang]}</h1>
+            <p className="text-sm text-muted-foreground">{t("resultsTitle")}</p>
+          </div>
+          <Button variant="outline" onClick={() => setSubmitted(false)} size="sm">
+            <RefreshCw className="mr-1.5 h-4 w-4" /> {t("newComparison")}
+          </Button>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="grid gap-5 sm:grid-cols-2">
+            {options.map((o) => (
+              <ResultCard
+                key={o.id}
+                option={o}
+                inputs={inputs as unknown as Record<string, number | string>}
+                onAskAbout={(title) => chatRef.current?.askAbout(title)}
+              />
+            ))}
+          </div>
+          <div className="lg:sticky lg:top-6 lg:self-start">
+            <AIChatPanel
+              ref={chatRef}
+              options={options}
+              inputs={inputs as unknown as Record<string, number | string>}
+              lang={lang}
+            />
+          </div>
+        </div>
+
+        <ChecklistBox />
+        <DisclaimerBox variant="long" />
+      </div>
+    );
+  }
     const options = getSmeOptions(variant, inputs);
     return (
       <div className="mx-auto max-w-6xl space-y-6">
