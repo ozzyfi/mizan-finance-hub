@@ -419,6 +419,212 @@ function ProviderQuestionsGenerator() {
   );
 }
 
+type ContractMsg = { role: "user" | "assistant"; content: string };
+
+function ContractChatPanel({
+  findings,
+  providerQuestions,
+  offerType,
+  lang,
+}: {
+  findings: Finding[];
+  providerQuestions: string[];
+  offerType: OfferType | null;
+  lang: "tr" | "en";
+}) {
+  const [messages, setMessages] = useState<ContractMsg[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const system =
+    lang === "tr"
+      ? `Sen HelalYol sözleşme analiz danışmanısın.
+
+Analiz edilen teklif türü: ${offerType ?? "bilinmiyor"}
+
+Bulgular:
+${findings.map((f) => `• ${f.title}: ${statusStyles[f.status].label} — ${f.explanation}`).join("\n")}
+
+Kuruma sorulması önerilen sorular:
+${providerQuestions.map((q, i) => `${i + 1}. ${q}`).join("\n")}
+
+Kurallar:
+- Türkçe, maks 150 kelime.
+- Fetva, hukuki tavsiye, kesin hüküm verme.
+- Sözleşme maddesi görülmeden kesin yorum yapılamayacağını gerektiğinde belirt.
+- Kullanıcıya hangi maddeyi kuruma, hukukçuya veya danışma kuruluna sorması gerektiğini açıkça söyle.`
+      : `You are HelalYol's contract analysis advisor.
+
+Offer type: ${offerType ?? "unknown"}
+
+Findings:
+${findings.map((f) => `• ${f.title}: ${statusStyles[f.status].label} — ${f.explanation}`).join("\n")}
+
+Suggested provider questions:
+${providerQuestions.map((q, i) => `${i + 1}. ${q}`).join("\n")}
+
+Rules:
+- English, max 150 words.
+- No fatwas, no legal advice, no definitive judgments.
+- When relevant, say the exact clause must be reviewed.
+- Tell the user what to ask the provider, lawyer or advisory board.`;
+
+  const chips =
+    lang === "tr"
+      ? [
+          "En riskli madde hangisi?",
+          "Gecikme şartı riba riski taşır mı?",
+          "Erken kapama nasıl yorumlanmalı?",
+          "İmzalamadan önce ne sormalıyım?",
+        ]
+      : [
+          "Which clause is riskiest?",
+          "Is there riba risk in the late fee?",
+          "How should early payoff be interpreted?",
+          "What should I ask before signing?",
+        ];
+
+  const send = async (text: string) => {
+    const clean = text.trim();
+    if (!clean || loading) return;
+    const next: ContractMsg[] = [...messages, { role: "user", content: clean }];
+    setMessages(next);
+    setInput("");
+    setLoading(true);
+    try {
+      const resp = await fetch("/api/public/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ system, messages: next }),
+      });
+      const data = (await resp.json()) as { reply?: string };
+      const reply =
+        data.reply || (lang === "tr" ? "Bir hata oluştu." : "An error occurred.");
+      setMessages([...next, { role: "assistant", content: reply }]);
+    } catch {
+      setMessages([
+        ...next,
+        {
+          role: "assistant",
+          content:
+            lang === "tr"
+              ? "Bağlantı hatası, tekrar deneyin."
+              : "Connection error, please retry.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+      requestAnimationFrame(() =>
+        scrollRef.current?.scrollTo({
+          top: scrollRef.current.scrollHeight,
+          behavior: "smooth",
+        }),
+      );
+    }
+  };
+
+  const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      void send(input);
+    }
+  };
+
+  return (
+    <div className="flex h-[560px] flex-col rounded-xl border bg-card shadow-soft ring-1 ring-primary/20">
+      <div className="flex items-center gap-3 border-b p-4">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <Sparkles className="h-4 w-4" />
+        </div>
+        <div>
+          <div className="text-sm font-semibold leading-tight">
+            {lang === "tr" ? "Sözleşme AI" : "Contract AI"}
+          </div>
+          <div className="text-[11px] text-muted-foreground">
+            {lang === "tr" ? "Analiz bağlamını biliyor" : "Knows your analysis"}
+          </div>
+        </div>
+      </div>
+
+      <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
+        {messages.length === 0 && (
+          <div className="rounded-lg border bg-secondary/50 p-3 text-xs text-muted-foreground">
+            {lang === "tr"
+              ? "Sözleşme bulguları hakkında soru sorun."
+              : "Ask anything about the findings."}
+          </div>
+        )}
+        {messages.map((m, i) =>
+          m.role === "user" ? (
+            <div key={i} className="flex justify-end">
+              <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-primary px-3 py-2 text-sm text-primary-foreground">
+                {m.content}
+              </div>
+            </div>
+          ) : (
+            <div key={i} className="flex items-start gap-2">
+              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-[11px]">
+                ✦
+              </div>
+              <div className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-tl-sm bg-secondary px-3 py-2 text-sm text-card-foreground">
+                {m.content}
+              </div>
+            </div>
+          ),
+        )}
+        {loading && (
+          <div className="flex items-start gap-2">
+            <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-[11px]">
+              ✦
+            </div>
+            <div className="rounded-2xl rounded-tl-sm bg-secondary px-3 py-2.5">
+              <div className="flex gap-1">
+                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.3s]" />
+                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.15s]" />
+                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {messages.length === 0 && (
+        <div className="flex flex-wrap gap-1.5 border-t px-3 py-2">
+          {chips.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => void send(q)}
+              className="rounded-full bg-secondary px-2.5 py-1 text-[11px] text-secondary-foreground transition-colors hover:bg-secondary/80"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="flex items-center gap-2 border-t p-3">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={onKey}
+          placeholder={lang === "tr" ? "Bir soru sorun..." : "Ask a question..."}
+          className="h-9 flex-1 rounded-md border border-input bg-background px-3 text-sm outline-none ring-ring focus-visible:ring-1"
+        />
+        <Button
+          size="icon"
+          disabled={!input.trim() || loading}
+          onClick={() => void send(input)}
+          aria-label="send"
+        >
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 function OfferReviewPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
