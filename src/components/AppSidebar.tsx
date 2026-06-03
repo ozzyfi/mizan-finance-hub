@@ -38,6 +38,7 @@ export function AppSidebar() {
     { to: "/compare/vehicle", icon: Car, label: t("navVehicle") },
     { to: "/business", icon: Building2, label: t("navSme") },
     { to: "/contract", icon: FileText, label: t("navContract") },
+    { to: "/advisor", icon: Sparkles, label: t("navAdvisor") },
   ];
 
   const secondary = [
