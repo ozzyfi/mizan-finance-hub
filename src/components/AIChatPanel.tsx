@@ -100,7 +100,7 @@ export const AIChatPanel = forwardRef<AIChatPanelHandle, AIChatPanelProps>(
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            system: buildSystem(options, inputs, lang),
+            system: buildSystem(options, inputs, lang, contextTitle),
             messages: next,
           }),
         });
