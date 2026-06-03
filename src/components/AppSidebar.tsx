@@ -8,6 +8,7 @@ import {
   TrendingUp,
   Settings as SettingsIcon,
   LayoutDashboard,
+  Sparkles,
 } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import {
