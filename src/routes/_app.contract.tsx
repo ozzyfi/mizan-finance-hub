@@ -649,7 +649,7 @@ function OfferReviewPage() {
   const journeyRoute = offerTypes.find((o) => o.id === offerType)?.route ?? "/dashboard";
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="mx-auto max-w-7xl space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Teklifimi Kontrol Et</h1>
         <p className="mt-1.5 text-sm text-muted-foreground">
