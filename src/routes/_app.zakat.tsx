@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
+import { AIFloatingButton } from "@/components/AIFloatingButton";
 import { formatTL } from "@/state/AppContext";
 import { ExternalLink } from "lucide-react";
 
