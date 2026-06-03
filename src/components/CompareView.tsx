@@ -41,6 +41,7 @@ export function CompareView({ variant }: { variant: Variant }) {
     location: "TR",
   });
   const [submitted, setSubmitted] = useState(false);
+  const chatRef = useRef<AIChatPanelHandle>(null);
 
   const priceLabel: TKey =
     variant === "home" ? "homePrice" : variant === "vehicle" ? "carPrice" : "targetAmount";
