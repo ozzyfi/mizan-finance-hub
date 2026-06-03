@@ -55,7 +55,7 @@ export function CompareView({ variant }: { variant: Variant }) {
 
   if (submitted) {
     return (
-      <div className="mx-auto max-w-6xl space-y-6">
+      <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">{titles[variant][lang]}</h1>
@@ -66,10 +66,26 @@ export function CompareView({ variant }: { variant: Variant }) {
             {t("newComparison")}
           </Button>
         </div>
-        <div className="grid gap-5 md:grid-cols-2">
-          {options.map((o) => (
-            <ResultCard key={o.id} option={o} inputs={inputs as unknown as Record<string, number | string>} />
-          ))}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="grid gap-5 sm:grid-cols-2">
+            {options.map((o) => (
+              <ResultCard
+                key={o.id}
+                option={o}
+                inputs={inputs as unknown as Record<string, number | string>}
+                onAskAbout={(title) => chatRef.current?.askAbout(title)}
+              />
+            ))}
+          </div>
+          <div className="lg:sticky lg:top-6 lg:self-start">
+            <AIChatPanel
+              ref={chatRef}
+              options={options}
+              inputs={inputs as unknown as Record<string, number | string>}
+              lang={lang}
+              contextTitle={titles[variant][lang]}
+            />
+          </div>
         </div>
         <ChecklistBox />
         <DisclaimerBox variant="long" />
