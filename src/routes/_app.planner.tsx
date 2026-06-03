@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
+import { AIFloatingButton } from "@/components/AIFloatingButton";
 import { formatTL } from "@/state/AppContext";
 import { Home, Car, Briefcase, Building2, PiggyBank, Coins } from "lucide-react";
 
