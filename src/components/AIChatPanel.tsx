@@ -133,6 +133,9 @@ export const AIChatPanel = forwardRef<AIChatPanelHandle, AIChatPanelProps>(
             : `Can you explain how ${title} fits my profile?`;
         void send(q);
       },
+      askQuestion: (question: string) => {
+        void send(question);
+      },
     }));
 
     const onKey = (e: KeyboardEvent<HTMLInputElement>) => {
