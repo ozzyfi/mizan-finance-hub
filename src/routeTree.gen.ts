@@ -17,6 +17,7 @@ import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppPlannerRouteImport } from './routes/_app.planner'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppContractRouteImport } from './routes/_app.contract'
+import { Route as AppAdvisorRouteImport } from './routes/_app.advisor'
 import { Route as AppBusinessIndexRouteImport } from './routes/_app.business.index'
 import { Route as ApiPublicChatRouteImport } from './routes/api/public/chat'
 import { Route as AppCompareVehicleRouteImport } from './routes/_app.compare.vehicle'
@@ -65,6 +66,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
 const AppContractRoute = AppContractRouteImport.update({
   id: '/contract',
   path: '/contract',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdvisorRoute = AppAdvisorRouteImport.update({
+  id: '/advisor',
+  path: '/advisor',
   getParentRoute: () => AppRoute,
 } as any)
 const AppBusinessIndexRoute = AppBusinessIndexRouteImport.update({
@@ -121,6 +127,7 @@ const AppBusinessIjaraRoute = AppBusinessIjaraRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
+  '/advisor': typeof AppAdvisorRoute
   '/contract': typeof AppContractRoute
   '/dashboard': typeof AppDashboardRoute
   '/planner': typeof AppPlannerRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
+  '/advisor': typeof AppAdvisorRoute
   '/contract': typeof AppContractRoute
   '/dashboard': typeof AppDashboardRoute
   '/planner': typeof AppPlannerRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/_app/advisor': typeof AppAdvisorRoute
   '/_app/contract': typeof AppContractRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/planner': typeof AppPlannerRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/onboarding'
+    | '/advisor'
     | '/contract'
     | '/dashboard'
     | '/planner'
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/onboarding'
+    | '/advisor'
     | '/contract'
     | '/dashboard'
     | '/planner'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/onboarding'
+    | '/_app/advisor'
     | '/_app/contract'
     | '/_app/dashboard'
     | '/_app/planner'
@@ -303,6 +315,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContractRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/advisor': {
+      id: '/_app/advisor'
+      path: '/advisor'
+      fullPath: '/advisor'
+      preLoaderRoute: typeof AppAdvisorRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/business/': {
       id: '/_app/business/'
       path: '/business'
@@ -377,6 +396,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAdvisorRoute: typeof AppAdvisorRoute
   AppContractRoute: typeof AppContractRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppPlannerRoute: typeof AppPlannerRoute
@@ -394,6 +414,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdvisorRoute: AppAdvisorRoute,
   AppContractRoute: AppContractRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppPlannerRoute: AppPlannerRoute,
@@ -421,3 +442,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
