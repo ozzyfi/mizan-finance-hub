@@ -626,7 +626,7 @@ Rules:
 }
 
 function OfferReviewPage() {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const navigate = useNavigate();
   const [offerType, setOfferType] = useState<OfferType | null>(null);
   const [fileName, setFileName] = useState("");
