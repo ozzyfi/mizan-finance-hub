@@ -681,54 +681,65 @@ function OfferReviewPage() {
           )}
         </>
       ) : (
-        <>
-          <Card className="p-4 shadow-soft">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <FileText className="h-5 w-5 text-primary" />
-                <div>
-                  <div className="text-sm font-semibold">Analiz Sonucu</div>
-                  <div className="text-xs text-muted-foreground">
-                    {fileName || "ornek-teklif.pdf"} ·{" "}
-                    {offerTypes.find((o) => o.id === offerType)?.label}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="space-y-6">
+            <Card className="p-4 shadow-soft">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <div>
+                    <div className="text-sm font-semibold">Analiz Sonucu</div>
+                    <div className="text-xs text-muted-foreground">
+                      {fileName || "ornek-teklif.pdf"} ·{" "}
+                      {offerTypes.find((o) => o.id === offerType)?.label}
+                    </div>
                   </div>
                 </div>
+                <Button variant="outline" size="sm" onClick={reset}>
+                  Yeni teklif
+                </Button>
               </div>
-              <Button variant="outline" size="sm" onClick={reset}>
-                Yeni teklif
-              </Button>
-            </div>
-          </Card>
+            </Card>
 
-          <div className="grid gap-3">
-            {findings.map((f, i) => (
-              <OfferAnalysisCard key={i} f={f} />
-            ))}
+            <div className="grid gap-3">
+              {findings.map((f, i) => (
+                <OfferAnalysisCard key={i} f={f} />
+              ))}
+            </div>
+
+            <OfferSummaryPanel />
+
+            <ProviderQuestionsGenerator />
+
+            <Card className="p-5 shadow-soft">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="text-sm font-semibold">Sıradaki adım</div>
+                  <p className="text-xs text-muted-foreground">
+                    Bu teklifi yol haritana ekle veya uzman görüşmesine hazırlan.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Button onClick={() => navigate({ to: journeyRoute })}>
+                    Yol Haritamı Güncelle <ArrowRight className="ml-1 h-4 w-4" />
+                  </Button>
+                  <Button variant="outline" onClick={() => navigate({ to: "/planner" })}>
+                    Uzman Görüşü İçin Hazırlan
+                  </Button>
+                </div>
+              </div>
+            </Card>
           </div>
 
-          <OfferSummaryPanel />
-
-          <ProviderQuestionsGenerator />
-
-          <Card className="p-5 shadow-soft">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <div className="text-sm font-semibold">Sıradaki adım</div>
-                <p className="text-xs text-muted-foreground">
-                  Bu teklifi yol haritana ekle veya uzman görüşmesine hazırlan.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Button onClick={() => navigate({ to: journeyRoute })}>
-                  Yol Haritamı Güncelle <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
-                <Button variant="outline" onClick={() => navigate({ to: "/planner" })}>
-                  Uzman Görüşü İçin Hazırlan
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </>
+          <div className="lg:sticky lg:top-6 lg:self-start">
+            <ContractChatPanel
+              findings={findings}
+              providerQuestions={providerQuestions}
+              offerType={offerType}
+              lang={lang}
+            />
+          </div>
+        </div>
       )}
 
       <ChecklistBox />
