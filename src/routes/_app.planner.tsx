@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
+import { AIFloatingButton } from "@/components/AIFloatingButton";
 import { formatTL } from "@/state/AppContext";
 import { Home, Car, Briefcase, Building2, PiggyBank, Coins } from "lucide-react";
 
@@ -127,6 +128,34 @@ function Planner() {
           )}
         </TabsContent>
       </Tabs>
+
+      <AIFloatingButton
+        lang={lang}
+        label={lang === "tr" ? "AI Planım" : "AI Advice"}
+        context={
+          lang === "tr"
+            ? `Kullanıcının finansal planı:
+- Hedef türü: ${tab}
+- Hedef tutar: ${target.toLocaleString("tr-TR")} ₺
+- Mevcut birikim: ${current.toLocaleString("tr-TR")} ₺
+- Kalan tutar: ${remaining.toLocaleString("tr-TR")} ₺
+- Aylık birikim: ${monthly.toLocaleString("tr-TR")} ₺
+- Hedefe tahmini ulaşma süresi: ${monthsToGoal > 0 ? `${monthsToGoal} ay` : "hesaplanamadı"}
+${targetDate && monthlyNeeded > 0 ? `- Hedef tarih için gereken aylık birikim: ${monthlyNeeded.toLocaleString("tr-TR")} ₺` : ""}
+
+Faizsiz birikim, bütçe planı ve hedefe ulaşma konusunda kısa ve pratik öneriler ver. Yatırım tavsiyesi verme. Maks 150 kelime.`
+            : `User's financial plan:
+- Goal type: ${tab}
+- Target amount: ${target.toLocaleString()} TL
+- Current savings: ${current.toLocaleString()} TL
+- Remaining amount: ${remaining.toLocaleString()} TL
+- Monthly savings: ${monthly.toLocaleString()} TL
+- Estimated time to goal: ${monthsToGoal > 0 ? `${monthsToGoal} months` : "not calculated"}
+${targetDate && monthlyNeeded > 0 ? `- Monthly amount needed for target date: ${monthlyNeeded.toLocaleString()} TL` : ""}
+
+Give short and practical guidance on interest-free saving. Do not give investment advice. Max 150 words.`
+        }
+      />
 
       <DisclaimerBox />
     </div>

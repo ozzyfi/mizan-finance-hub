@@ -13,12 +13,14 @@ import type { Lang } from "@/i18n/translations";
 
 export interface AIChatPanelHandle {
   askAbout: (title: string) => void;
+  askQuestion: (question: string) => void;
 }
 
 interface AIChatPanelProps {
   options: ResultOption[];
   inputs: Record<string, number | string>;
   lang: Lang;
+  contextTitle?: string;
 }
 
 type Msg = { role: "user" | "assistant"; content: string };
@@ -27,43 +29,54 @@ function buildSystem(
   options: ResultOption[],
   inputs: Record<string, number | string>,
   lang: Lang,
+  contextTitle?: string,
 ) {
+  const inputLines = Object.entries(inputs)
+    .filter(([, v]) => v !== undefined && v !== null && v !== "" && v !== 0)
+    .map(([k, v]) => `- ${k}: ${v}`)
+    .join("\n");
+  const optionLines = options
+    .map((o) => `• ${o.title[lang]} — Risk: ${o.risk} — ~${o.durationMonths} ${lang === "tr" ? "ay" : "months"}`)
+    .join("\n");
+  const ctx =
+    contextTitle ?? (lang === "tr" ? "Finansman karşılaştırması" : "Finance comparison");
+
   if (lang === "tr") {
     return `Sen HelalYol faizsiz finansman danışmanısın.
 
-Kullanıcı profili:
-- Amaç: ${inputs.purpose}
-- Tutar: ${inputs.amount} ₺
-- Özkaynak: ${inputs.equity} ₺
-- Aylık kapasite: ${inputs.monthlyCapacity} ₺
-- Vade: ${inputs.duration} ay
-- Belgelendirme: ${inputs.documentable}
-- Teminat: ${inputs.collateral}
+Bağlam: ${ctx}
 
-Gösterilen finansman seçenekleri:
-${options.map((o) => `• ${o.title.tr} — Risk: ${o.risk}`).join("\n")}
+Kullanıcı bilgileri:
+${inputLines || "- Bilgi girilmemiş"}
 
-Türkçe, maks 150 kelime, kısa ve pratik cevap ver. Riba (faiz) içeren ürün önerme.`;
+Karşılaştırılan seçenekler:
+${optionLines}
+
+Kurallar:
+- Türkçe, maks 150 kelime, sade ve pratik cevap ver.
+- Riba/faiz içeren ürün önerme.
+- Fetva, hukuki veya finansal tavsiye verme.
+- Gerektiğinde kuruma, hukukçuya veya danışma kuruluna sorulması gerekenleri belirt.`;
   }
-  return `You are a HalalYol interest-free finance advisor.
+  return `You are a HelalYol interest-free finance advisor.
 
-User profile:
-- Purpose: ${inputs.purpose}
-- Amount: ${inputs.amount} ₺
-- Equity: ${inputs.equity} ₺
-- Monthly capacity: ${inputs.monthlyCapacity} ₺
-- Duration: ${inputs.duration} months
-- Documentation: ${inputs.documentable}
-- Collateral: ${inputs.collateral}
+Context: ${ctx}
 
-Shown financing options:
-${options.map((o) => `• ${o.title.en} — Risk: ${o.risk}`).join("\n")}
+User info:
+${inputLines || "- No input"}
 
-English, max 150 words, concise and practical. Never suggest interest-bearing products.`;
+Compared options:
+${optionLines}
+
+Rules:
+- English, max 150 words, concise and practical.
+- Never recommend interest-bearing products.
+- Do not give fatwas, legal or financial advice.
+- When relevant, point to what to ask the provider, lawyer or advisory board.`;
 }
 
 export const AIChatPanel = forwardRef<AIChatPanelHandle, AIChatPanelProps>(
-  function AIChatPanel({ options, inputs, lang }, ref) {
+  function AIChatPanel({ options, inputs, lang, contextTitle }, ref) {
     const { t } = useTranslation();
     const [messages, setMessages] = useState<Msg[]>([]);
     const [input, setInput] = useState("");
@@ -87,7 +100,7 @@ export const AIChatPanel = forwardRef<AIChatPanelHandle, AIChatPanelProps>(
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            system: buildSystem(options, inputs, lang),
+            system: buildSystem(options, inputs, lang, contextTitle),
             messages: next,
           }),
         });
@@ -119,6 +132,9 @@ export const AIChatPanel = forwardRef<AIChatPanelHandle, AIChatPanelProps>(
             ? `${title} hakkında profilime uygunluğunu açıklar mısın?`
             : `Can you explain how ${title} fits my profile?`;
         void send(q);
+      },
+      askQuestion: (question: string) => {
+        void send(question);
       },
     }));
 

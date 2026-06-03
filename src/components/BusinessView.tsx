@@ -67,6 +67,7 @@ export function BusinessView({ variant = "general" }: { variant?: keyof typeof t
               options={options}
               inputs={inputs as unknown as Record<string, number | string>}
               lang={lang}
+              contextTitle={titles[variant][lang]}
             />
           </div>
         </div>

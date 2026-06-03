@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
+import { AIFloatingButton } from "@/components/AIFloatingButton";
 import { formatTL } from "@/state/AppContext";
 import { ExternalLink } from "lucide-react";
 
@@ -245,6 +246,34 @@ function Zakat() {
           </Card>
         </div>
       </section>
+
+      <AIFloatingButton
+        lang={lang}
+        label={lang === "tr" ? "Zekat Sor" : "Ask about Zakat"}
+        context={
+          lang === "tr"
+            ? `Kullanıcının zekat hesabı:
+- Toplam varlıklar: ${totals.assets.toLocaleString("tr-TR")} ₺
+- Borçlar: ${totals.debts.toLocaleString("tr-TR")} ₺
+- Zekata tabi varlıklar: ${totals.zakatable.toLocaleString("tr-TR")} ₺
+- Ödenecek zekat: ${totals.due.toLocaleString("tr-TR")} ₺
+- Nisab: ${totals.nisab.toLocaleString("tr-TR")} ₺
+- Nisab durumu: ${totals.above ? "Nisabın üzerinde" : "Nisabın altında"}
+- Nisab türü: ${nisabType === "gold" ? "Altın" : "Gümüş"}
+
+Zekat hakkında kısa, sade ve bilgilendirici cevap ver. Fetva verme. Gerektiğinde bir ilahiyatçıya veya güvenilir kuruma danışılmasını söyle. Maks 150 kelime.`
+            : `User's zakat calculation:
+- Total assets: ${totals.assets.toLocaleString()} TL
+- Debts: ${totals.debts.toLocaleString()} TL
+- Zakatable assets: ${totals.zakatable.toLocaleString()} TL
+- Zakat due: ${totals.due.toLocaleString()} TL
+- Nisab: ${totals.nisab.toLocaleString()} TL
+- Nisab status: ${totals.above ? "Above nisab" : "Below nisab"}
+- Nisab type: ${nisabType === "gold" ? "Gold" : "Silver"}
+
+Answer in a concise, informative way. Do not give fatwas. Suggest consulting a qualified scholar when needed. Max 150 words.`
+        }
+      />
 
       <DisclaimerBox />
     </div>

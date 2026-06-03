@@ -68,10 +68,31 @@ export const translations = {
   navVehicle: { tr: "Araba Alacağım", en: "Buying a Car" },
   navSme: { tr: "KOBİ Finansmanı", en: "SME Financing" },
   navContract: { tr: "Teklifimi Kontrol Et", en: "Check My Offer" },
+  navAdvisor: { tr: "AI Danışman", en: "AI Advisor" },
   navMore: { tr: "Diğer araçlar", en: "More tools" },
   navZakat: { tr: "Zekat Hesapla", en: "Zakat Calculator" },
   navPlanner: { tr: "Finansal Planım", en: "My Financial Plan" },
   navSettings: { tr: "Ayarlar", en: "Settings" },
+  advisorTitle: { tr: "AI Danışman", en: "AI Advisor" },
+  advisorSubtitle: {
+    tr: "İslami finans hakkında her şeyi sorabilirsiniz.",
+    en: "Ask anything about Islamic finance.",
+  },
+  aiFloatLabel: { tr: "AI Sor", en: "Ask AI" },
+  contractChatTitle: { tr: "Sözleşme AI", en: "Contract AI" },
+  contractChip1: { tr: "En riskli madde hangisi?", en: "Which clause is riskiest?" },
+  contractChip2: {
+    tr: "Gecikme şartı riba riski taşır mı?",
+    en: "Is there riba risk in the late fee?",
+  },
+  contractChip3: {
+    tr: "Erken kapama nasıl yorumlanmalı?",
+    en: "How should early payoff be interpreted?",
+  },
+  contractChip4: {
+    tr: "İmzalamadan önce ne sormalıyım?",
+    en: "What should I ask before signing?",
+  },
 
   // Landing — hero
   heroHeadline: { tr: "Kredi değil, faizsiz yol bul.", en: "Find an interest-free path, not a loan." },
