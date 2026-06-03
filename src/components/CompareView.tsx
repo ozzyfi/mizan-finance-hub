@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { useTranslation } from "@/i18n/LanguageProvider";
 import { ResultCard } from "@/components/ResultCard";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
 import { ChecklistBox } from "@/components/ChecklistBox";
+import { AIChatPanel, type AIChatPanelHandle } from "@/components/AIChatPanel";
 import {
   getHomeOptions,
   getVehicleOptions,
