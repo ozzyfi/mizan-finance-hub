@@ -3,6 +3,7 @@ import { User, Building2, ArrowRight, Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { useApp, type UserType } from "@/state/AppContext";
+import { Logo } from "@/components/Logo";
 import { LanguageToggle } from "@/components/LanguageToggle";
 
 export const Route = createFileRoute("/onboarding")({
