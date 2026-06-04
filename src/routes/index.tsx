@@ -46,7 +46,8 @@ function Landing() {
           <LanguageToggle />
           <Button asChild size="sm">
             <Link to="/onboarding">
-              {t("ctaRoadmap")} <ArrowRight className="ml-1 h-4 w-4" />
+              {lang === "tr" ? "Ücretsiz Kaydol" : "Sign up free"}{" "}
+              <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </Button>
         </div>

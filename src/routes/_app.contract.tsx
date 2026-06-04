@@ -29,7 +29,11 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app/contract")({
   head: () => ({ meta: [{ title: "HelalYol — Teklifimi Kontrol Et" }] }),
-  component: OfferReviewPage,
+  component: () => (
+    <PaywallGate featureName="Teklif / Sözleşme Analizi">
+      <OfferReviewPage />
+    </PaywallGate>
+  ),
 });
 
 type OfferType = "home" | "vehicle" | "sme" | "personal";
