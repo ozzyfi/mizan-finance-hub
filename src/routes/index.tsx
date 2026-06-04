@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { HeroMockCard } from "@/components/HeroMockCard";
 import { PrimaryActionCards } from "@/components/PrimaryActionCards";
 import { Footer } from "@/components/Footer";
+import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
