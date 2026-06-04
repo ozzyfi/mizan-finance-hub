@@ -4,10 +4,15 @@ import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
+import { PaywallGate } from "@/components/PaywallGate";
 
 export const Route = createFileRoute("/_app/advisor")({
   head: () => ({ meta: [{ title: "HelalYol — AI Danışman" }] }),
-  component: AdvisorPage,
+  component: () => (
+    <PaywallGate featureName="AI Danışman">
+      <AdvisorPage />
+    </PaywallGate>
+  ),
 });
 
 type Msg = { role: "user" | "assistant"; content: string };
