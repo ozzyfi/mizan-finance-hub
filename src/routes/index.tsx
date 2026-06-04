@@ -36,7 +36,7 @@ function Landing() {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-30 flex items-center justify-between border-b bg-background/85 px-6 py-3.5 backdrop-blur">
         <Link to="/" className="flex items-center" aria-label="HelalYol">
-          <Logo variant="horizontal" className="h-7 sm:h-8 max-w-[180px]" />
+          <Logo variant="horizontal" className="h-7 max-w-[160px]" />
         </Link>
         <div className="flex items-center gap-2">
           <LanguageToggle />

@@ -21,7 +21,7 @@ export function Logo({ variant = "horizontal", className }: Props) {
     <img
       src={logoHorizontal.url}
       alt="HelalYol"
-      className={cn("h-9 w-auto sm:h-10 md:h-11 object-contain", className)}
+      className={cn("h-7 w-auto object-contain", className)}
     />
   );
 }
