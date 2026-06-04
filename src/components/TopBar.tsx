@@ -15,7 +15,7 @@ import {
 import { useApp } from "@/state/AppContext";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { toast } from "sonner";
-import { Logo } from "@/components/Logo";
+
 
 export function TopBar() {
   const { user, plan, signOut, setPlan } = useApp();
