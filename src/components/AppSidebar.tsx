@@ -87,9 +87,9 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border">
         <Link to="/dashboard" className="flex items-center gap-2 px-2 py-1.5">
           {collapsed ? (
-            <Logo variant="icon" className="h-8 w-8" />
+            <Logo variant="icon" className="h-6 w-6" />
           ) : (
-            <Logo variant="horizontal" className="h-8 max-w-[180px]" />
+            <Logo variant="horizontal" className="h-6 max-w-[140px]" />
           )}
         </Link>
       </SidebarHeader>
