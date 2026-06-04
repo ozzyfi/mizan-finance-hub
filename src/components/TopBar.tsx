@@ -38,7 +38,7 @@ export function TopBar() {
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur">
       <div className="flex items-center gap-2">
         <SidebarTrigger />
-        <span className="hidden md:inline text-sm font-semibold text-muted-foreground">HelalYol</span>
+        <Logo variant="horizontal" className="hidden md:block h-7 max-w-[180px]" />
       </div>
       <div className="flex items-center gap-3">
         <LanguageToggle />
