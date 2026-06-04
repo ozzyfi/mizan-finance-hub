@@ -13,6 +13,7 @@ import {
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { useApp } from "@/state/AppContext";
 import { Badge } from "@/components/ui/badge";
+import { Logo } from "@/components/Logo";
 import {
   Sidebar,
   SidebarContent,
