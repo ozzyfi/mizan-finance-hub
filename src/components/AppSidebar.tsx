@@ -11,6 +11,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageProvider";
+import { useApp } from "@/state/AppContext";
+import { Badge } from "@/components/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -26,26 +28,58 @@ import {
 
 export function AppSidebar() {
   const { t } = useTranslation();
+  const { plan } = useApp();
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const isActive = (p: string) =>
     pathname === p || (p !== "/dashboard" && pathname.startsWith(p));
 
-  const primary = [
+  const showProBadge = plan !== "pro";
+
+  const primary: Array<{
+    to: string;
+    icon: typeof Home;
+    label: string;
+    pro?: boolean;
+  }> = [
     { to: "/dashboard", icon: LayoutDashboard, label: t("navDashboard") },
     { to: "/compare/home", icon: Home, label: t("navHome") },
     { to: "/compare/vehicle", icon: Car, label: t("navVehicle") },
-    { to: "/business", icon: Building2, label: t("navSme") },
-    { to: "/contract", icon: FileText, label: t("navContract") },
-    { to: "/advisor", icon: Sparkles, label: t("navAdvisor") },
+    { to: "/business", icon: Building2, label: t("navSme"), pro: true },
+    { to: "/contract", icon: FileText, label: t("navContract"), pro: true },
+    { to: "/advisor", icon: Sparkles, label: t("navAdvisor"), pro: true },
   ];
 
-  const secondary = [
+  const secondary: Array<{
+    to: string;
+    icon: typeof Home;
+    label: string;
+    pro?: boolean;
+  }> = [
     { to: "/zakat", icon: Calculator, label: t("navZakat") },
-    { to: "/planner", icon: TrendingUp, label: t("navPlanner") },
+    { to: "/planner", icon: TrendingUp, label: t("navPlanner"), pro: true },
     { to: "/settings", icon: SettingsIcon, label: t("navSettings") },
   ];
+
+  const renderItem = (it: { to: string; icon: typeof Home; label: string; pro?: boolean }) => (
+    <SidebarMenuItem key={it.to}>
+      <SidebarMenuButton asChild isActive={isActive(it.to)}>
+        <Link to={it.to}>
+          <it.icon className="h-4 w-4" />
+          <span className="flex-1">{it.label}</span>
+          {it.pro && showProBadge && !collapsed && (
+            <Badge
+              variant="outline"
+              className="ml-auto h-4 border-primary/30 bg-primary/10 px-1.5 text-[9px] font-semibold text-primary"
+            >
+              PRO
+            </Badge>
+          )}
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
 
   return (
     <Sidebar collapsible="icon">
@@ -67,36 +101,14 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {primary.map((it) => (
-                <SidebarMenuItem key={it.to}>
-                  <SidebarMenuButton asChild isActive={isActive(it.to)}>
-                    <Link to={it.to}>
-                      <it.icon className="h-4 w-4" />
-                      <span>{it.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <SidebarMenu>{primary.map(renderItem)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarGroup>
           {!collapsed && <SidebarGroupLabel>{t("navMore")}</SidebarGroupLabel>}
           <SidebarGroupContent>
-            <SidebarMenu>
-              {secondary.map((it) => (
-                <SidebarMenuItem key={it.to}>
-                  <SidebarMenuButton asChild isActive={isActive(it.to)}>
-                    <Link to={it.to}>
-                      <it.icon className="h-4 w-4" />
-                      <span>{it.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <SidebarMenu>{secondary.map(renderItem)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

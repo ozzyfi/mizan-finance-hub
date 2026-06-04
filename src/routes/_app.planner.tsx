@@ -12,9 +12,15 @@ import { AIFloatingButton } from "@/components/AIFloatingButton";
 import { formatTL } from "@/state/AppContext";
 import { Home, Car, Briefcase, Building2, PiggyBank, Coins } from "lucide-react";
 
+import { PaywallGate } from "@/components/PaywallGate";
+
 export const Route = createFileRoute("/_app/planner")({
   head: () => ({ meta: [{ title: "Mizan — Financial Plan" }] }),
-  component: Planner,
+  component: () => (
+    <PaywallGate featureName="Finansal Planlama">
+      <Planner />
+    </PaywallGate>
+  ),
 });
 
 const goalDefaults: Record<string, { target: number; icon: typeof Home }> = {

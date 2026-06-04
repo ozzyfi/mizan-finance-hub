@@ -24,11 +24,16 @@ import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/i18n/LanguageProvider";
 import { DisclaimerBox } from "@/components/DisclaimerBox";
 import { ChecklistBox } from "@/components/ChecklistBox";
+import { PaywallGate } from "@/components/PaywallGate";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_app/contract")({
   head: () => ({ meta: [{ title: "HelalYol — Teklifimi Kontrol Et" }] }),
-  component: OfferReviewPage,
+  component: () => (
+    <PaywallGate featureName="Teklif / Sözleşme Analizi">
+      <OfferReviewPage />
+    </PaywallGate>
+  ),
 });
 
 type OfferType = "home" | "vehicle" | "sme" | "personal";
