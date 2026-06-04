@@ -79,11 +79,8 @@ function LoginPage() {
   return (
     <div className="min-h-screen bg-secondary/40">
       <header className="flex items-center justify-between border-b bg-background/80 px-6 py-4 backdrop-blur">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-semibold">
-            H
-          </div>
-          <span className="font-semibold">HelalYol</span>
+        <Link to="/" className="flex items-center" aria-label="HelalYol">
+          <Logo variant="horizontal" className="h-9 sm:h-10 max-w-[220px]" />
         </Link>
         <LanguageToggle />
       </header>
