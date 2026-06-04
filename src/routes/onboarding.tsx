@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { User, Building2, ArrowRight } from "lucide-react";
+import { User, Building2, ArrowRight, Loader2 } from "lucide-react";
+import { useEffect } from "react";
 import { useTranslation } from "@/i18n/LanguageProvider";
-import { useApp } from "@/state/AppContext";
+import { useApp, type UserType } from "@/state/AppContext";
 import { LanguageToggle } from "@/components/LanguageToggle";
 
 export const Route = createFileRoute("/onboarding")({
@@ -12,14 +13,31 @@ export const Route = createFileRoute("/onboarding")({
 });
 
 function Onboarding() {
-  const { t } = useTranslation();
-  const { setUserType } = useApp();
+  const { t, lang } = useTranslation();
+  const { user, userType, setUserType, loading } = useApp();
   const navigate = useNavigate();
 
-  const pick = (type: "individual" | "sme") => {
-    setUserType(type);
-    navigate({ to: "/dashboard" });
+  // If user already has a type, send them to dashboard
+  useEffect(() => {
+    if (!loading && user && userType) navigate({ to: "/dashboard" });
+  }, [user, userType, loading, navigate]);
+
+  const pick = async (type: UserType) => {
+    if (user) {
+      await setUserType(type);
+      navigate({ to: "/dashboard" });
+    } else {
+      navigate({ to: "/signup", search: { type: type ?? undefined } });
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-secondary/40">
@@ -46,7 +64,7 @@ function Onboarding() {
           ].map((c) => (
             <button
               key={c.type}
-              onClick={() => pick(c.type)}
+              onClick={() => void pick(c.type)}
               className="group relative flex flex-col items-start gap-4 rounded-2xl border bg-background p-8 text-left shadow-soft transition-base hover:shadow-soft-hover hover:-translate-y-0.5 hover:border-primary/40"
             >
               <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-secondary text-primary">
@@ -62,6 +80,15 @@ function Onboarding() {
             </button>
           ))}
         </div>
+
+        {!user && (
+          <p className="mt-10 text-sm text-muted-foreground">
+            {lang === "tr" ? "Zaten hesabınız var mı? " : "Already have an account? "}
+            <Link to="/login" className="font-medium text-primary hover:underline">
+              {lang === "tr" ? "Giriş yapın →" : "Sign in →"}
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );
