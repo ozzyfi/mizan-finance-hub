@@ -44,7 +44,7 @@ function Onboarding() {
     <div className="min-h-screen bg-secondary/40">
       <header className="flex items-center justify-between border-b bg-background/80 px-6 py-4 backdrop-blur">
         <Link to="/" className="flex items-center" aria-label="HelalYol">
-          <Logo variant="horizontal" className="h-7 sm:h-8 max-w-[180px]" />
+          <Logo variant="horizontal" className="h-7 max-w-[160px]" />
         </Link>
         <LanguageToggle />
       </header>
