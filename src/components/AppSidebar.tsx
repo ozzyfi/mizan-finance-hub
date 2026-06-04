@@ -86,16 +86,10 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <Link to="/dashboard" className="flex items-center gap-2 px-2 py-1.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-semibold">
-            H
-          </div>
-          {!collapsed && (
-            <div className="flex flex-col leading-tight">
-              <span className="font-semibold text-sidebar-foreground">HelalYol</span>
-              <span className="text-[10px] tracking-wider text-muted-foreground truncate">
-                Kredi değil, faizsiz yol.
-              </span>
-            </div>
+          {collapsed ? (
+            <Logo variant="icon" className="h-8 w-8" />
+          ) : (
+            <Logo variant="horizontal" className="h-8 max-w-[180px]" />
           )}
         </Link>
       </SidebarHeader>
