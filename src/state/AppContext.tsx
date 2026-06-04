@@ -68,7 +68,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const plan: Plan = meta.plan === "pro" ? "pro" : "free";
 
   const setUserType = useCallback(async (t: UserType) => {
-    if (!t) return;
     const { data, error } = await supabase.auth.updateUser({
       data: { user_type: t },
     });
